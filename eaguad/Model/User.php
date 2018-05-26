@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace EAguad\Model;
 
 use App\Traits\GenerateUUID;
 use Illuminate\Notifications\Notifiable;
