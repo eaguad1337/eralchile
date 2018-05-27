@@ -15,7 +15,7 @@ class CostCentreController extends Controller
     public function index()
     {
         $costcentres = CostCentre::get();
-        return view('costCentres.index', ['costCentres' => $costcentres]);
+        return view('costcentres.index', ['costCentres' => $costcentres]);
     }
 
     /**
@@ -25,7 +25,7 @@ class CostCentreController extends Controller
      */
     public function create()
     {
-        return view('costCentres.form');
+        return view('costcentres.form');
     }
 
     /**
