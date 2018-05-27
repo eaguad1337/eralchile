@@ -14,7 +14,8 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //
+        $orders = Order::simplePaginate(15);
+        return view('orders.index', ['orders' => $orders]);
     }
 
     /**
@@ -24,7 +25,8 @@ class OrderController extends Controller
      */
     public function create()
     {
-        //
+        $orders = Order::get();
+        return view('orders.form', ['orders' => $orders]);
     }
 
     /**
@@ -35,13 +37,31 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'file' => 'required|file|max:' . env('MAX_FILE_SIZE', 5000),
+            'code' => 'required|max:191',
+            'cost_centre_id' => 'required|exists:cost_centres,id'
+        ]);
+
+        $input = [
+            'file' => $request->get('file'),
+            'code' => $request->get('code'),
+            'cost_centre_id' => $request->get('cost_centre_id'),
+            'user_id' => auth()->user()->id
+        ];
+        
+        $costCentre = Order::create($input);
+
+        $costCentre->addMedia($request->file('file'))
+            ->toMediaCollection();
+
+        return redirect()->route('costcentres.edit', $costCentre->id);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Order  $order
+     * @param  \EAguad\Model\Order  $order
      * @return \Illuminate\Http\Response
      */
     public function show(Order $order)
@@ -52,7 +72,7 @@ class OrderController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Order  $order
+     * @param  \EAguad\Model\Order  $order
      * @return \Illuminate\Http\Response
      */
     public function edit(Order $order)
@@ -64,7 +84,7 @@ class OrderController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Order  $order
+     * @param  \EAguad\Model\Order  $order
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Order $order)
@@ -75,7 +95,7 @@ class OrderController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Order  $order
+     * @param  \EAguad\Model\Order  $order
      * @return \Illuminate\Http\Response
      */
     public function destroy(Order $order)

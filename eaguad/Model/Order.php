@@ -1,8 +1,13 @@
 <?php namespace EAguad\Model;
 
-class Order extends Model
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
+
+class Order extends Model implements HasMedia
 {
-    protected $fillable = ['code', 'user_id'];
+    use HasMediaTrait;
+
+    protected $fillable = ['code', 'user_id', 'cost_centre_id'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -10,5 +15,21 @@ class Order extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function costCentre()
+    {
+        return $this->belongsTo(CostCentre::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function logs()
+    {
+        return $this->hasMany(OrderLog::class);
     }
 }

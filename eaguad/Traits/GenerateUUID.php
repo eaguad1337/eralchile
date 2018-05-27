@@ -1,4 +1,4 @@
-<?php namespace App\Traits;
+<?php namespace EAguad\Traits;
 
 use Ramsey\Uuid\Uuid;
 

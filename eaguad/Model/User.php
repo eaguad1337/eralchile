@@ -2,7 +2,7 @@
 
 namespace EAguad\Model;
 
-use App\Traits\GenerateUUID;
+use EAguad\Traits\GenerateUUID;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 

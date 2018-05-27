@@ -1,11 +1,12 @@
 <?php namespace EAguad\Services;
 
 use EAguad\Events\OrderApprovedEvent;
+use EAguad\Events\OrderRejectedEvent;
 use EAguad\Exception\AlreadyApprovedException;
 use EAguad\Exception\AlreadyRejectedException;
+use EAguad\Exception\ReviewerDoesNotBelongToCostCentreException;
 use EAguad\Model\Order;
 use EAguad\Model\User;
-use Illuminate\Session\TokenMismatchException;
 
 class OrderService {
     const STATUS_PENDING = 'pending';
@@ -17,7 +18,6 @@ class OrderService {
     private $status = null;
     private $limit = 0;
     private $offset  = 0;
-    private $order = null;
 
     /**
      * OrderService constructor.
@@ -30,18 +30,29 @@ class OrderService {
     /**
      * @param Order $order
      * @param User $user
+     * @param string $message
      * @return OrderService
      * @throws AlreadyApprovedException
+     * @throws ReviewerDoesNotBelongToCostCentreException
      */
-    public function approve(Order $order, User $user)
+    public function approve(Order $order, User $user, $message = '')
     {
         if ($order->status == static::STATUS_APPROVED) {
             throw new AlreadyApprovedException();
         }
 
+        if (!$order->costCentre->hasReviewer($user)) {
+            throw new ReviewerDoesNotBelongToCostCentreException();
+        }
+
         $order->status = static::STATUS_APPROVED;
         $order->save();
-        $order->logs->create(['description' => static::STATUS_APPROVED]);
+        $order->logs->create([
+            'reviewer_id' => $user->id,
+            'old_status' => $order->status,
+            'new_status' => static::STATUS_REJECTED,
+            'message' => $message
+        ]);
 
         event(new OrderRejectedEvent($order));
 
@@ -51,18 +62,29 @@ class OrderService {
     /**
      * @param Order $order
      * @param User $user
+     * @param string $message
      * @return OrderService
      * @throws AlreadyRejectedException
+     * @throws ReviewerDoesNotBelongToCostCentreException
      */
-    public function reject(Order $order, User $user)
+    public function reject(Order $order, User $user, $message = '')
     {
         if ($order->status == static::STATUS_REJECTED) {
             throw new AlreadyRejectedException();
         }
 
+        if (!$order->costCentre->hasReviewer($user)) {
+            throw new ReviewerDoesNotBelongToCostCentreException();
+        }
+
         $order->status = static::STATUS_REJECTED;
         $order->save();
-        $order->logs->create(['description' => static::STATUS_REJECTED]);
+        $order->logs->create([
+            'reviewer_id' => $user->id,
+            'old_status' => $order->status,
+            'new_status' => static::STATUS_REJECTED,
+            'message' => $message
+        ]);
 
         event(new OrderApprovedEvent($order));
 
@@ -83,7 +105,7 @@ class OrderService {
      */
     public function getAll() : \Illuminate\Support\Collection
     {
-        return Order::where('status', static::STATUS_PENDING)
+        return Order::where('status', $this->status)
             ->limit($this->limit)
             ->offset($this->offset)
             ->get();

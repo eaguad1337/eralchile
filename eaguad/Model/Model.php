@@ -1,6 +1,6 @@
 <?php namespace EAguad\Model;
 
-use App\Traits\GenerateUUID;
+use EAguad\Traits\GenerateUUID;
 
 class Model extends \Illuminate\Database\Eloquent\Model {
     use GenerateUUID;
