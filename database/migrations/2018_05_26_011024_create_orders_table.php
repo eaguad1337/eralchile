@@ -16,6 +16,7 @@ class CreateOrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('code');
+            $table->string('status')->default('pending');
             $table->string('user_id');
             $table->timestamps();
 

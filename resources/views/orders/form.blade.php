@@ -5,7 +5,11 @@
     <div class="col-md-8 col-md-offset-2">
       <h2>Crear orden</h2>
 
-      {!! Form::open(['route' => 'orders.store', 'method' => 'post', 'files' => true]) !!}
+      @if(isset($order))
+        {!! Form::model($order, ['route' => ['orders.update', $order->id], 'files' => true, 'method' => 'patch']) !!}
+      @else
+        {!! Form::open(['route' => 'orders.store', 'method' => 'post', 'files' => true]) !!}
+      @endif
       <div class="row">
         <div class="col-md-6">
           <div class="form-group">
@@ -16,11 +20,7 @@
         <div class="col-md-6">
           <div class="form-group">
             <label for="cost_centre_id">Centro de costo</label>
-            <select name="cost_centre_id" id="cost_centre_id" class="form-control">
-              @foreach($costCentres as $costCentre)
-                <option value="{{$costCentre->id}}">{{$costCentre->name}}</option>
-              @endforeach
-            </select>
+            {!! Form::select('cost_centre_id', $costCentres->pluck('name', 'id'), old('cost_centre_id'), ['class' => 'form-control']) !!}
           </div>
         </div>
       </div>
@@ -31,6 +31,11 @@
             {!! Form::file('file', ['class' => 'form-control']) !!}
           </div>
         </div>
+      </div>
+      <div class="row">
+        {{--<div class="form-group">--}}
+          {{--<label for="view">Ver archivo</label>--}}
+        {{--</div>--}}
       </div>
       <div class="row">
         <div class="col-md-6">

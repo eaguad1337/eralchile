@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use EAguad\Model\CostCentre;
 use EAguad\Model\Order;
 use Illuminate\Http\Request;
 
@@ -25,14 +26,14 @@ class OrderController extends Controller
      */
     public function create()
     {
-        $orders = Order::get();
-        return view('orders.form', ['orders' => $orders]);
+        $costCentres = CostCentre::get();
+        return view('orders.form', ['costCentres' => $costCentres]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -49,19 +50,21 @@ class OrderController extends Controller
             'cost_centre_id' => $request->get('cost_centre_id'),
             'user_id' => auth()->user()->id
         ];
-        
-        $costCentre = Order::create($input);
 
-        $costCentre->addMedia($request->file('file'))
+        $order = Order::create($input);
+
+        $order->addMedia($request->file('file'))
             ->toMediaCollection();
 
-        return redirect()->route('costcentres.edit', $costCentre->id);
+        session()->flash('success');
+
+        return redirect()->route('orders.edit', $order->id);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \EAguad\Model\Order  $order
+     * @param  \EAguad\Model\Order $order
      * @return \Illuminate\Http\Response
      */
     public function show(Order $order)
@@ -72,30 +75,54 @@ class OrderController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \EAguad\Model\Order  $order
+     * @param  \EAguad\Model\Order $order
      * @return \Illuminate\Http\Response
      */
     public function edit(Order $order)
     {
-        //
+        $costCentres = CostCentre::get();
+        return view('orders.form', compact(['order', 'costCentres']));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \EAguad\Model\Order  $order
+     * @param  \Illuminate\Http\Request $request
+     * @param  \EAguad\Model\Order $order
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Order $order)
     {
-        //
+        $request->validate([
+            'file' => 'nullable|file|max:' . env('MAX_FILE_SIZE', 5000),
+            'code' => 'required|max:191',
+            'cost_centre_id' => 'required|exists:cost_centres,id'
+        ]);
+
+        $input = [
+            'code' => $request->get('code'),
+            'cost_centre_id' => $request->get('cost_centre_id'),
+            'user_id' => auth()->user()->id
+        ];
+
+        $order = Order::create($input);
+
+        if ($request->file('file')) {
+            $order->getFirstMedia()->delete();
+
+            $order->addMedia($request->file('file'))
+                ->toMediaCollection();
+        }
+
+        session()->flash('success');
+
+        return redirect()->route('orders.edit', $order->id);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \EAguad\Model\Order  $order
+     * @param  \EAguad\Model\Order $order
      * @return \Illuminate\Http\Response
      */
     public function destroy(Order $order)

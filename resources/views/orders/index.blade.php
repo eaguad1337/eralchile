@@ -8,20 +8,23 @@
       <table class="table">
         <thead>
         <tr>
+          <th>Fecha</th>
           <th>Código</th>
-          <th>CECO</th>
+          <th>Centro de costo</th>
           <th>Estado</th>
           <th>Acciones</th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-          @foreach($orders as $order)
+        @foreach($orders as $order)
+          <tr>
+            <td>{{$order->created_at}}</td>
             <td>{{$order->code}}</td>
             <td>{{$order->costCentre->name}}</td>
-            <td>{{$order->status}}</td>
-          @endforeach
-        </tr>
+            <td>{{__($order->status)}}</td>
+            <td><a href="{{route('orders.edit', $order->id)}}">Editar</a></td>
+          </tr>
+        @endforeach
         </tbody>
       </table>
     </div>

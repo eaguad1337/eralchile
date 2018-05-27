@@ -13,12 +13,12 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-          @foreach($costCentres as $costCentre)
+        @foreach($costCentres as $costCentre)
+          <tr>
             <td>{{$costCentre->name}}</td>
             <th><a href="{{route('costcentres.edit', $costCentre->id)}}">Editar</a></th>
-          @endforeach
-        </tr>
+          </tr>
+        @endforeach
         </tbody>
       </table>
     </div>

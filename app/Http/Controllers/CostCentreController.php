@@ -41,6 +41,7 @@ class CostCentreController extends Controller
         ]);
 
         $costcentre = CostCentre::create($input);
+        session()->flash('success');
 
         return redirect()->route('costcentres.edit', $costcentre->id);
     }
@@ -76,7 +77,14 @@ class CostCentreController extends Controller
      */
     public function update(Request $request, CostCentre $costcentre)
     {
-        //
+        $input = $request->validate([
+            'name' => 'required|max:200'
+        ]);
+
+        $costcentre->update($input);
+        session()->flash('success');
+
+        return redirect()->route('costcentres.edit', $costcentre->id);
     }
 
     /**
