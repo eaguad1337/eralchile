@@ -4,7 +4,14 @@
   <div class="container">
     <div class="col-md-12">
       <h2>Ordenes</h2>
-      <a class="btn btn-primary" href="{{route('orders.create')}}">Crear</a>
+      <div class="row">
+        <div class="col-md-6">
+          <a class="btn btn-primary" href="{{route('orders.create')}}">Crear</a>
+        </div>
+        <div class="pull-right">
+          {{$orders->links()}}
+        </div>
+      </div>
       <table class="table">
         <thead>
         <tr>
@@ -27,6 +34,11 @@
         @endforeach
         </tbody>
       </table>
+      <div class="row">
+        <div class="pull-right">
+          {{$orders->links()}}
+        </div>
+      </div>
     </div>
   </div>
 @stop

@@ -4,7 +4,14 @@
   <div class="container">
     <div class="col-md-12">
       <h2>Usuarios</h2>
-      <a class="btn btn-primary" href="{{route('users.create')}}">Crear</a>
+      <div class="row">
+        <div class="col-md-4">
+          <a class="btn btn-primary" href="{{route('users.create')}}">Crear</a>
+        </div>
+        <div class="pull-right">
+          {{$orders->links()}}
+        </div>
+      </div>
       <table class="table">
         <thead>
         <tr>
@@ -25,6 +32,11 @@
         </tr>
         </tbody>
       </table>
+      <div class="row">
+        <div class="pull-right">
+          {{$orders->links()}}
+        </div>
+      </div>
     </div>
   </div>
 @stop
