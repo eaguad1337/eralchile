@@ -67,13 +67,13 @@ return [
             'sslmode' => 'prefer',
         ],
 
-        'sqlsrv' => [
+        'sap' => [
             'driver' => 'sqlsrv',
-            'host' => env('DB_HOST', 'localhost'),
-            'port' => env('DB_PORT', '1433'),
-            'database' => env('DB_DATABASE', 'forge'),
-            'username' => env('DB_USERNAME', 'forge'),
-            'password' => env('DB_PASSWORD', ''),
+            'host' => env('SAP_DB_HOST', 'localhost'),
+            'port' => env('SAP_DB_PORT', '1433'),
+            'database' => env('SAP_DB_DATABASE', 'forge'),
+            'username' => env('SAP_DB_USERNAME', 'forge'),
+            'password' => env('SAP_DB_PASSWORD', ''),
             'charset' => 'utf8',
             'prefix' => '',
         ],
