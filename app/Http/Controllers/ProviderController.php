@@ -58,7 +58,7 @@ class ProviderController extends Controller
      */
     public function show(Provider $provider)
     {
-        //
+        return view('providers.form', compact('provider'));
     }
 
     /**
@@ -69,7 +69,7 @@ class ProviderController extends Controller
      */
     public function edit(Provider $provider)
     {
-        //
+
     }
 
     /**

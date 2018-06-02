@@ -4,62 +4,50 @@
   <div class="container">
     <div class="col-md-8 col-md-offset-2">
 
-      @if(isset($user))
-        <h2>Actualizar usuario</h2>
-        {!! Form::model($user, ['route' => ['users.update', $user->id], 'method' => 'patch']) !!}
-      @else
-        <h2>Crear usuario</h2>
-        {!! Form::open(['route' => 'users.store', 'method' => 'post']) !!}
-      @endif
-      <form action="{{route('orders.store')}}">
-        <div class="row">
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="name">Nombre</label>
-              {!! Form::text('name', old('name'), ['class' => 'form-control']) !!}
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="lastname">Apellido</label>
-              {!! Form::text('lastname', old('lastname'), ['class' => 'form-control']) !!}
-            </div>
+      <h2>Detalles de proveedor</h2>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="name">Nombre</label>
+            <p>{{$provider->cardname}}</p>
           </div>
         </div>
-        <div class="row">
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="email">Email</label>
-              {!! Form::text('email', old('email'), ['class' => 'form-control']) !!}
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="password">Contraseña</label>
-              {!! Form::password('password', ['class' => 'form-control']) !!}
-            </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="name">Código SAP</label>
+            <p>{{$provider->cardcode}}</p>
           </div>
         </div>
-        <div class="row">
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="is_signatory">Visar documentos</label>
-              {!! Form::checkbox('is_signatory', true, old('is_signatory'), ['id' => 'is_signatory']) !!}
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="is_admin">Administrar plataforma</label>
-              {!! Form::checkbox('is_admin', true, old('is_admin'), ['id' => 'is_admin']) !!}
-            </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="country">País</label>
+            <p>{{$provider->country}}</p>
           </div>
         </div>
-        <div class="row">
-          <div class="col-md-6">
-            <button class="btn btn-primary">Guardar</button>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="country">Ciudad</label>
+            <p>{{$provider->city}}</p>
           </div>
         </div>
-      {!! Form::close() !!}
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="address">Dirección</label>
+            <p>{{$provider->address}}</p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="zipcode">ZipCode</label>
+            <p>{{$provider->zipcode}}</p>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 @stop
