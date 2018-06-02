@@ -12,6 +12,7 @@
           {{$users->links()}}
         </div>
       </div>
+      <hr>
       <table class="table">
         <thead>
         <tr>
@@ -21,15 +22,15 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-          @foreach($users as $user)
+        @foreach($users as $user)
+          <tr>
             <td>{{$user->name}}</td>
             <td>{{$user->email}}</td>
             <td>
               <a href="{{route('users.edit', $user->id)}}">Editar</a>
             </td>
-          @endforeach
-        </tr>
+          </tr>
+        @endforeach
         </tbody>
       </table>
       <div class="row">

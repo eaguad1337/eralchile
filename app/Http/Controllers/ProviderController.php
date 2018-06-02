@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Provider;
+use EAguad\Model\Provider;
 use Illuminate\Http\Request;
 
 class ProviderController extends Controller
@@ -14,7 +14,8 @@ class ProviderController extends Controller
      */
     public function index()
     {
-        //
+        $providers = Provider::simplePaginate(20);
+        return view('providers.index', compact('providers'));
     }
 
     /**
@@ -25,6 +26,17 @@ class ProviderController extends Controller
     public function create()
     {
         //
+    }
+
+    /**
+     * @param Request $request
+     * @return \Yajra\DataTables\DataTableAbstract|\Yajra\DataTables\DataTables
+     * @throws \Exception
+     */
+    public function datatables(Request $request)
+    {
+        return datatables(Provider::query())
+            ->toJson();
     }
 
     /**

@@ -12,6 +12,7 @@
           {{$orders->links()}}
         </div>
       </div>
+      <hr>
       <table class="table">
         <thead>
         <tr>

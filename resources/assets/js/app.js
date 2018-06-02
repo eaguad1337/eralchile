@@ -6,6 +6,7 @@
  */
 
 require('./bootstrap');
+require('datatables.net-bs');
 
 window.Vue = require('vue');
 
@@ -20,6 +21,7 @@ Vue.component('autocomplete', Autocomplete);
  */
 
 Vue.component('cost-centre-members', require('./components/CostCentreMembers.vue'));
+
 
 const app = new Vue({
     el: '#app'

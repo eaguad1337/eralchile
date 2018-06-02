@@ -17,4 +17,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('users', 'API\\UserAPIController@index');
+Route::group(['as' => 'api.'], function () {
+    Route::get('users', 'API\\UserAPIController@index');
+    Route::get('providers/datatable', 'ProviderController@datatables')->name('providers.datatables');
+});

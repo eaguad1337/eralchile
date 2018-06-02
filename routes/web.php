@@ -17,5 +17,5 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('orders', 'OrderController');
     Route::resource('costcentres', 'CostCentreController');
     Route::resource('users', 'UserController');
-    Route::resource('providers', 'ProvidersController');
+    Route::resource('providers', 'ProviderController');
 });

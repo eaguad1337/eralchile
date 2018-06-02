@@ -17,7 +17,7 @@
         <a class="navbar-brand" href="#">Eral</a>
       </div>
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Inicio</a></li>
+        <li><a href="#">Inicio</a></li>
         <li><a href="{{route('orders.index')}}">Ordenes</a></li>
         <li><a href="{{route('costcentres.index')}}">Centros de Costo</a></li>
         <li><a href="{{route('users.index')}}">Usuarios</a></li>
@@ -29,8 +29,11 @@
   @include('alerts')
 
   @yield('content')
+
 </div>
 
 <script src="{{asset('js/app.js')}}"></script>
+@stack('scripts')
+
 </body>
 </html>
