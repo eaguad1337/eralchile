@@ -1,12 +1,13 @@
-<?php namespace EAguad\Listeners;
+<?php
 
-use App\Mail\OrderRejected;
-use EAguad\Events\OrderApprovedEvent;
+namespace EAguad\Listeners;
+
+use EAguad\Events\OrderSignedEvent;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Mail;
 
-class OrderRejectedListener
+class OrderSignedListener
 {
     /**
      * Create the event listener.
@@ -21,11 +22,11 @@ class OrderRejectedListener
     /**
      * Handle the event.
      *
-     * @param OrderApprovedEvent $event
+     * @param OrderSignedEvent $event
      * @return void
      * @throws \Spatie\MediaLibrary\Exceptions\InvalidConversion
      */
-    public function handle(OrderApprovedEvent $event)
+    public function handle(OrderSignedEvent $event)
     {
         $orderFile = $event->getOrder()->getFirstMedia('pdf');
         Mail::to($event->getOrder()->user->email)
@@ -33,6 +34,6 @@ class OrderRejectedListener
                 'as' => $orderFile->name,
                 'mime' => 'application/pdf',
             ])
-            ->send(new OrderRejected($event->getOrder()));
+            ->send(new OrderSigned($event->getOrder()));
     }
 }

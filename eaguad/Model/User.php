@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'lastname', 'email', 'password',
+        'name', 'lastname', 'email', 'password', 'is_signatory', 'is_admin'
     ];
 
     /**
@@ -36,5 +36,26 @@ class User extends Authenticatable
     public function orders()
     {
         return $this->hasMany(Order::class);
+    }
+
+    public function scopeSignatory($query)
+    {
+        return $query->whereIsSignatory(true);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAdmin() : bool
+    {
+        return $this->is_admin;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSignatory() : bool
+    {
+        return $this->is_signatory;
     }
 }

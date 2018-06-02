@@ -9,7 +9,7 @@
           <a class="btn btn-primary" href="{{route('users.create')}}">Crear</a>
         </div>
         <div class="pull-right">
-          {{$orders->links()}}
+          {{$users->links()}}
         </div>
       </div>
       <table class="table">
@@ -34,7 +34,7 @@
       </table>
       <div class="row">
         <div class="pull-right">
-          {{$orders->links()}}
+          {{$users->links()}}
         </div>
       </div>
     </div>

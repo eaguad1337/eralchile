@@ -6,11 +6,11 @@ class CostCentre extends Model
     protected $guarded = [];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function reviewers()
     {
-        return $this->hasMany(User::class, 'reviewer_id');
+        return $this->belongsToMany(User::class);
     }
 
     /**

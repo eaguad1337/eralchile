@@ -7118,6 +7118,13 @@ uuid@^3.0.0, uuid@^3.0.1, uuid@^3.1.0:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.2.1.tgz#12c528bb9d58d0b9265d9a2f6f0fe8be17ff1f14"
 
+v2-autocomplete@^0.2.2, v2-autocomplete@^0.2.3:
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/v2-autocomplete/-/v2-autocomplete-0.2.3.tgz#fe32abf378728f961e99462ab30fd48d3fc31bfd"
+  dependencies:
+    v2-autocomplete "^0.2.2"
+    vue "^2.4.2"
+
 vali-date@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/vali-date/-/vali-date-1.0.0.tgz#1b904a59609fb328ef078138420934f6b86709a6"
@@ -7243,7 +7250,7 @@ vue-template-es2015-compiler@^1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.6.0.tgz#dc42697133302ce3017524356a6c61b7b69b4a18"
 
-vue@^2.5.7:
+vue@^2.4.2, vue@^2.5.7:
   version "2.5.16"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.16.tgz#07edb75e8412aaeed871ebafa99f4672584a0085"
 

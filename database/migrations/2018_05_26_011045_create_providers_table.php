@@ -14,13 +14,14 @@ class CreateProvidersTable extends Migration
     public function up()
     {
         Schema::create('providers', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
-            $table->string('rut')->nullable();
-            $table->string('address_line_1')->nullable();
-            $table->string('address_line_2')->nullable();
-            $table->string('region_id')->nullable();
-            $table->string('commune_id')->nullable();
+            $table->uuid('id')->primary();
+            $table->string('cardcode');
+            $table->string('cardname')->nullable();
+            $table->string('address')->nullable();
+            $table->string('zipcode')->nullable();
+            $table->string('contact_person')->nullable();
+            $table->string('city')->nullable();
+            $table->string('country')->nullable();
             $table->timestamps();
         });
     }

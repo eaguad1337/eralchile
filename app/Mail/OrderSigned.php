@@ -3,13 +3,12 @@
 namespace App\Mail;
 
 use EAguad\Model\Order;
-use EAguad\Model\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class OrderApproved extends Mailable
+class OrderSigned extends Mailable
 {
     use Queueable, SerializesModels;
     /**
@@ -34,8 +33,7 @@ class OrderApproved extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.order_approved')
-            ->with(['order' => $this->order])
-            ->to(User::signatory()->pluck('email'));
+        return $this->view('emails.order_signed')
+            ->with(['order' => $this->order]);
     }
 }

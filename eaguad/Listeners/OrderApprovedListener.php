@@ -34,5 +34,11 @@ class OrderApprovedListener
                 'mime' => 'application/pdf',
             ])
             ->send(new OrderApproved($event->getOrder()));
+
+        Mail::attach($orderFile->getPath(), [
+                'as' => $orderFile->name,
+                'mime' => 'application/pdf',
+            ])
+            ->send(new OrderApproved($event->getOrder()));
     }
 }

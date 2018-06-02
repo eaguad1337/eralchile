@@ -24,6 +24,12 @@
         </div>
       </div>
       {!! Form::close() !!}
+
+      @if(isset($costCentre))
+        <hr>
+        <label for="reviewers">Aprobadores</label>
+        <cost-centre-members cost-centre-id="{{$costCentre->id}}" :default-reviewers="{{$costCentre->reviewers}}"></cost-centre-members>
+      @endif
     </div>
   </div>
 @stop

@@ -20,6 +20,14 @@ class Order extends Model implements HasMedia
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
+    public function signature()
+    {
+        return $this->belongsTo(Signature::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function costCentre()
     {
         return $this->belongsTo(CostCentre::class);

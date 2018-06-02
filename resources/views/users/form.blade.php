@@ -42,6 +42,20 @@
         </div>
         <div class="row">
           <div class="col-md-6">
+            <div class="form-group">
+              <label for="is_signatory">Visar documentos</label>
+              {!! Form::checkbox('is_signatory', true, old('is_signatory'), ['id' => 'is_signatory']) !!}
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="is_admin">Administrar plataforma</label>
+              {!! Form::checkbox('is_admin', true, old('is_admin'), ['id' => 'is_admin']) !!}
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
             <button class="btn btn-primary">Guardar</button>
           </div>
         </div>
