@@ -20,6 +20,7 @@
     },
     "dependencies": {
         "datatables.net-bs": "^1.10.16",
+        "sweetalert": "^2.1.0",
         "v2-autocomplete": "^0.2.3"
     }
 }

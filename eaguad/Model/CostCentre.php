@@ -19,6 +19,6 @@ class CostCentre extends Model
      */
     public function hasReviewer(User $user)
     {
-        return $this->reviewers()->where('id', $user->id)->exists();
+        return $this->reviewers()->where('users.id', $user->id)->exists();
     }
 }

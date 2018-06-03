@@ -8,6 +8,8 @@
 require('./bootstrap');
 require('datatables.net-bs');
 
+window.swal = require('sweetalert')
+
 window.Vue = require('vue');
 
 import Autocomplete from 'v2-autocomplete';
