@@ -31,11 +31,18 @@ class OrderApproved extends Mailable
      * Build the message.
      *
      * @return $this
+     * @throws \Spatie\MediaLibrary\Exceptions\InvalidConversion
      */
     public function build()
     {
+        $orderFile = $this->order->getFirstMedia();
         return $this->view('emails.order_approved')
             ->with(['order' => $this->order])
+            ->subject("Orden " . $this->order->code . " aprobada")
+            ->attach($orderFile->getPath(), [
+                'as' => $orderFile->name,
+                'mime' => 'application/pdf',
+            ])
             ->to(User::signatory()->pluck('email'));
     }
 }

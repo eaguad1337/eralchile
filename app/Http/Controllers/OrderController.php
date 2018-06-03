@@ -2,8 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use EAguad\Exception\AlreadyApprovedException;
+use EAguad\Exception\AlreadyRejectedException;
+use EAguad\Exception\OrderNotApprovedException;
+use EAguad\Exception\ReviewerDoesNotBelongToCostCentreException;
+use EAguad\Exception\UserIsNotSignatoryException;
 use EAguad\Model\CostCentre;
 use EAguad\Model\Order;
+use EAguad\Services\OrderService;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -40,7 +46,7 @@ class OrderController extends Controller
     {
         $request->validate([
             'file' => 'required|file|max:' . env('MAX_FILE_SIZE', 5000),
-            'code' => 'required|max:191',
+            'code' => 'required|max:191|unique:orders',
             'cost_centre_id' => 'required|exists:cost_centres,id'
         ]);
 
@@ -81,7 +87,13 @@ class OrderController extends Controller
     public function edit(Order $order)
     {
         $costCentres = CostCentre::get();
-        return view('orders.form', compact(['order', 'costCentres']));
+        $statusSelect = [
+            OrderService::STATUS_PENDING => __(OrderService::STATUS_PENDING),
+            OrderService::STATUS_APPROVED => __(OrderService::STATUS_APPROVED),
+            OrderService::STATUS_REJECTED => __(OrderService::STATUS_REJECTED),
+            OrderService::STATUS_SIGNED => __(OrderService::STATUS_SIGNED),
+        ];
+        return view('orders.form', compact(['order', 'costCentres', 'statusSelect']));
     }
 
     /**
@@ -90,25 +102,62 @@ class OrderController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @param  \EAguad\Model\Order $order
      * @return \Illuminate\Http\Response
+     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      */
     public function update(Request $request, Order $order)
     {
+        $user = auth()->user();
         $request->validate([
             'file' => 'nullable|file|max:' . env('MAX_FILE_SIZE', 5000),
-            'code' => 'required|max:191',
-            'cost_centre_id' => 'required|exists:cost_centres,id'
+            'code' => 'required|max:191|unique:orders,code,' . $order->id,
+            'cost_centre_id' => 'required|exists:cost_centres,id',
+            'status' => 'sometimes'
         ]);
+
+        $newStatus = $request->get('status');
 
         $input = [
             'code' => $request->get('code'),
             'cost_centre_id' => $request->get('cost_centre_id'),
-            'user_id' => auth()->user()->id
+            'user_id' => auth()->user()->id,
         ];
 
-        $order = Order::create($input);
+        $order->update($input);
+
+        if ($newStatus && $order->status !== $newStatus) {
+            try {
+                OrderService::changeStatus($order, $newStatus);
+            } catch (AlreadyApprovedException $e) {
+                session()->flash('error');
+                session()->flash('message', 'La orden ya está aprobada.');
+                return redirect()->route('orders.edit', $order->id);
+            } catch (AlreadyRejectedException $e) {
+                session()->flash('error');
+                session()->flash('message', 'La orden ya está rechazada.');
+                return redirect()->route('orders.edit', $order->id);
+            } catch (OrderNotApprovedException $e) {
+                session()->flash('error');
+                session()->flash('message', 'La orden no está aprobada.');
+                return redirect()->route('orders.edit', $order->id);
+            } catch (ReviewerDoesNotBelongToCostCentreException $e) {
+                session()->flash('error');
+                session()->flash('message', 'No tienes permisos suficientes para aprobar órdenes.');
+                return redirect()->route('orders.edit', $order->id);
+            } catch (UserIsNotSignatoryException $e) {
+                session()->flash('error');
+                session()->flash('message', 'No tienes permisos suficientes para visar órdenes.');
+                return redirect()->route('orders.edit', $order->id);
+            } catch (\StatusNotValidException $e) {
+                session()->flash('error');
+                session()->flash('message', 'El estado seleccionado no existe.');
+                return redirect()->route('orders.edit', $order->id);
+            }
+        }
 
         if ($request->file('file')) {
-            $order->getFirstMedia()->delete();
+            if ($order->getFirstMedia()) {
+                $order->getFirstMedia()->delete();
+            }
 
             $order->addMedia($request->file('file'))
                 ->toMediaCollection();

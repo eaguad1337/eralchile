@@ -34,6 +34,7 @@ class OrderRejected extends Mailable
     public function build()
     {
         return $this->view('emails.order_rejected')
+            ->subject("Orden " . $this->order->code . " rechazada")
             ->with(['order' => $this->order]);
     }
 }

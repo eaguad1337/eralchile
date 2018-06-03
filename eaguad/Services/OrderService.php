@@ -1,8 +1,8 @@
 <?php namespace EAguad\Services;
 
-use EAguad\Events\OrderApprovedEvent;
-use EAguad\Events\OrderRejectedEvent;
-use EAguad\Events\OrderSignedEvent;
+use App\Events\OrderApprovedEvent;
+use App\Events\OrderRejectedEvent;
+use App\Events\OrderSignedEvent;
 use EAguad\Exception\AlreadyApprovedException;
 use EAguad\Exception\AlreadyRejectedException;
 use EAguad\Exception\OrderNotApprovedException;
@@ -10,6 +10,7 @@ use EAguad\Exception\ReviewerDoesNotBelongToCostCentreException;
 use EAguad\Exception\UserIsNotSignatoryException;
 use EAguad\Model\Order;
 use EAguad\Model\User;
+use StatusNotValidException;
 
 class OrderService {
     const STATUS_PENDING = 'pending';
@@ -52,14 +53,14 @@ class OrderService {
 
         $order->status = static::STATUS_APPROVED;
         $order->save();
-        $order->logs->create([
+        $order->logs()->create([
             'reviewer_id' => $user->id,
             'old_status' => $order->status,
-            'new_status' => static::STATUS_REJECTED,
+            'new_status' => static::STATUS_APPROVED,
             'message' => $message
         ]);
 
-        event(new OrderRejectedEvent($order));
+        event(new OrderApprovedEvent($order));
 
         return $this;
     }
@@ -85,7 +86,7 @@ class OrderService {
 
         $order->status = static::STATUS_SIGNED;
         $order->save();
-        $order->logs->create([
+        $order->logs()->create([
             'reviewer_id' => $user->id,
             'old_status' => $order->status,
             'new_status' => static::STATUS_SIGNED,
@@ -99,32 +100,91 @@ class OrderService {
 
     /**
      * @param Order $order
-     * @param User $user
      * @param string $message
      * @return OrderService
      * @throws AlreadyRejectedException
      * @throws ReviewerDoesNotBelongToCostCentreException
      */
-    public function reject(Order $order, User $user, $message = '')
+    public function reject(Order $order, $message = '')
     {
+        $user = auth()->user();
+
         if ($order->status == static::STATUS_REJECTED) {
             throw new AlreadyRejectedException();
         }
 
-        if ($user->can('reject', $order)) {
+        if ($user->cant('reject', $order)) {
             throw new ReviewerDoesNotBelongToCostCentreException();
         }
 
         $order->status = static::STATUS_REJECTED;
         $order->save();
-        $order->logs->create([
+        $order->logs()->create([
             'reviewer_id' => $user->id,
             'old_status' => $order->status,
             'new_status' => static::STATUS_REJECTED,
             'message' => $message
         ]);
 
-        event(new OrderApprovedEvent($order));
+        event(new OrderRejectedEvent($order));
+
+        return $this;
+    }
+
+    /**
+     * @param Order $order
+     * @param $newStatus
+     * @return OrderService
+     * @throws AlreadyApprovedException
+     * @throws AlreadyRejectedException
+     * @throws OrderNotApprovedException
+     * @throws ReviewerDoesNotBelongToCostCentreException
+     * @throws UserIsNotSignatoryException
+     * @throws StatusNotValidException
+     */
+    public static function changeStatus(Order $order, $newStatus, $message = '')
+    {
+        if ($newStatus === static::STATUS_APPROVED) {
+            return static::getInstance()->approve($order, $message);
+        }
+
+        if ($newStatus === static::STATUS_REJECTED) {
+            return static::getInstance()->reject($order, $message);
+        }
+
+        if ($newStatus === static::STATUS_SIGNED) {
+            return static::getInstance()->sign($order, $message);
+        }
+
+        if ($newStatus === static::STATUS_PENDING) {
+            return static::getInstance()->setPending($order, $message);
+        }
+
+        throw new StatusNotValidException();
+    }
+
+    /**
+     * @param Order $order
+     * @param $message
+     * @return OrderService
+     * @throws UserIsNotSignatoryException
+     */
+    public function setPending(Order $order, $message)
+    {
+        $user = auth()->user();
+
+        if (!$user->can('sign', $order)) {
+            throw new UserIsNotSignatoryException();
+        }
+
+        $order->status = static::STATUS_PENDING;
+        $order->save();
+        $order->logs()->create([
+            'reviewer_id' => $user->id,
+            'old_status' => $order->status,
+            'new_status' => static::STATUS_PENDING,
+            'message' => $message
+        ]);
 
         return $this;
     }
@@ -132,7 +192,7 @@ class OrderService {
     /**
      * @return OrderService
      */
-    public function getInstance() : OrderService
+    public static function getInstance() : OrderService
     {
         static::$instance = static::$instance ?? new static;
         return static::$instance;

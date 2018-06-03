@@ -13,8 +13,14 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'EAguad\Events\OrderApprovedEvent' => [
-            'EAguad\Listeners\OrderApprovedListener',
+        \App\Events\OrderApprovedEvent::class => [
+            \App\Listeners\OrderApprovedListener::class
+        ],
+        \App\Events\OrderRejectedEvent::class => [
+            \App\Listeners\OrderRejectedListener::class
+        ],
+        \App\Events\OrderSignedEvent::class => [
+            \App\Listeners\OrderSignedListener::class
         ],
     ];
 

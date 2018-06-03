@@ -1,8 +1,7 @@
-<?php
+<?php namespace App\Listeners;
 
-namespace EAguad\Listeners;
-
-use EAguad\Events\OrderSignedEvent;
+use App\Events\OrderSignedEvent;
+use App\Mail\OrderSigned;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Mail;
@@ -24,16 +23,10 @@ class OrderSignedListener
      *
      * @param OrderSignedEvent $event
      * @return void
-     * @throws \Spatie\MediaLibrary\Exceptions\InvalidConversion
      */
     public function handle(OrderSignedEvent $event)
     {
-        $orderFile = $event->getOrder()->getFirstMedia('pdf');
         Mail::to($event->getOrder()->user->email)
-            ->attach($orderFile->getPath(), [
-                'as' => $orderFile->name,
-                'mime' => 'application/pdf',
-            ])
             ->send(new OrderSigned($event->getOrder()));
     }
 }

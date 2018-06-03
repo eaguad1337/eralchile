@@ -7,6 +7,12 @@
         </div>
       @endif
 
+      @if(session()->has('error'))
+        <div class="alert alert-warning">
+          <p>{{session()->get('message')}}</p>
+        </div>
+      @endif
+
       @if($errors->any())
         <div class="alert alert-warning">
           <p>Por favor verificar lo siguiente</p>

@@ -1,4 +1,4 @@
-<?php namespace EAguad\Events;
+<?php namespace App\Events;
 
 use EAguad\Model\Order;
 use Illuminate\Broadcasting\Channel;
