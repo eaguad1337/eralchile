@@ -15,7 +15,10 @@ Auth::routes();
 
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('orders', 'OrderController');
-    Route::resource('costcentres', 'CostCentreController');
-    Route::resource('users', 'UserController');
     Route::resource('providers', 'ProviderController');
+
+    Route::group(['middleware' => 'admin'], function () {
+        Route::resource('users', 'UserController');
+        Route::resource('costcentres', 'CostCentreController');
+    });
 });

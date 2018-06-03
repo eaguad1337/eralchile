@@ -11,7 +11,7 @@
       @if(!isset($order))
         <h2>Crear orden</h2>
         {!! Form::open(['route' => 'orders.store', 'method' => 'post', 'files' => true]) !!}
-      @elseif($orderIsEditable)
+      @else
         <h2>Editar orden</h2>
         {!! Form::model($order, ['route' => ['orders.update', $order->id], 'files' => true, 'method' => 'patch']) !!}
       @endif
@@ -39,12 +39,14 @@
             </div>
           </div>
         @endif
-        <div class="col-md-6">
-          <div class="form-group">
-            <label for="status">Cambiar estado</label>
-            {!! Form::select('status', $statusSelect, old('status'), ['class' => 'form-control']) !!}
+        @if(isset($order))
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="status">Cambiar estado</label>
+              {!! Form::select('status', $statusSelect, old('status'), ['class' => 'form-control']) !!}
+            </div>
           </div>
-        </div>
+        @endif
       </div>
       <div class="row">
         {{--<div class="form-group">--}}

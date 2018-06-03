@@ -42,7 +42,7 @@ class UserController extends Controller
             'password' => 'required',
             'email' => 'email|required',
             'is_signatory' => 'boolean',
-            'is_admin' => 'boolean|required',
+            'is_admin' => 'boolean',
         ]);
 
         $input['password'] = \Hash::make($input['password']);
@@ -87,7 +87,7 @@ class UserController extends Controller
             'lastname' => 'required',
             'email' => 'email|required',
             'is_signatory' => 'boolean',
-            'is_admin' => 'boolean|required',
+            'is_admin' => 'boolean',
         ]);
 
         if ($request->get('password')) {
