@@ -4,7 +4,7 @@
   <div class="container">
     <div class="col-md-12">
       <h2>Centros de costo</h2>
-      <a class="btn btn-primary" href="{{route('costcentres.create')}}">Crear</a>
+      <a class="create-link" href="{{route('costcentres.create')}}">Crear nuevo <i class="fa fa-plus-circle"></i></a>
       <hr>
       <table class="table">
         <thead>

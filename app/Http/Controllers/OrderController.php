@@ -74,14 +74,14 @@ class OrderController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \EAguad\Model\Order $order
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return \Yajra\DataTables\DataTableAbstract|\Yajra\DataTables\DataTables
+     * @throws \Exception
      */
-    public function show(Order $order)
+    public function datatables(Request $request)
     {
-        //
+        return datatables(Order::query())
+            ->toJson();
     }
 
     /**

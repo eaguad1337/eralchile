@@ -1,45 +1,60 @@
 @extends('layout')
 
+@push('scripts')
+  <script>
+    $(function () {
+      $('#dataTable').DataTable({
+        processing: true,
+        serverSide: true,
+        language: {
+          url: "//cdn.datatables.net/plug-ins/1.10.12/i18n/Spanish.json"
+        },
+        ajax: '{{ route('api.orders.datatables') }}',
+        columns: [
+          {data: 'created_at', name: 'created_at', render: $.fn.dataTable.render.text()},
+          {data: 'code', name: 'code', render: $.fn.dataTable.render.text()},
+          {data: 'status', name: 'status', render: (data, type, row) => {
+            const status = {
+              'pending': 'Pendiente',
+              'approved': 'Aprobada',
+              'rejected': 'Rechazada',
+              'signed': 'Visada',
+            };
+
+            return status[row.status];
+            }
+          },
+          {
+            name: 'action', orderable: false, searchable: false, render: (data, type, row) => {
+              return `<a href="/orders/${row.id}/edit">Detalles</a>`;
+            }
+          }
+        ]
+      });
+    });
+  </script>
+@endpush
+
 @section('content')
   <div class="container">
     <div class="col-md-12">
-      <h2>Ordenes</h2>
-      <div class="row">
-        <div class="col-md-6">
-          <a class="btn btn-primary" href="{{route('orders.create')}}">Crear</a>
-        </div>
-        <div class="pull-right">
-          {{$orders->links()}}
-        </div>
-      </div>
+      <h2>Órdenes</h2>
+      <a class="create-link" href="{{route('orders.create')}}">Crear nueva <i class="fa fa-plus-circle"></i></a>
+
       <hr>
-      <table class="table">
-        <thead>
-        <tr>
-          <th>Fecha</th>
-          <th>Código</th>
-          <th>Centro de costo</th>
-          <th>Estado</th>
-          <th>Acciones</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach($orders as $order)
-          <tr>
-            <td>{{$order->created_at}}</td>
-            <td>{{$order->code}}</td>
-            <td>{{$order->costCentre->name}}</td>
-            <td>{{__($order->status)}}</td>
-            <td><a href="{{route('orders.edit', $order->id)}}">Editar</a></td>
-          </tr>
-        @endforeach
-        </tbody>
-      </table>
       <div class="row">
-        <div class="pull-right">
-          {{$orders->links()}}
+        <div class="col-md-12">
+          <table class="table" id="dataTable">
+            <thead>
+            <th name="created_at">Fecha</th>
+            <th name="code">Código SAP</th>
+            <th name="status">Estado</th>
+            <th name="action">Acciones</th>
+            </thead>
+          </table>
         </div>
       </div>
+
     </div>
   </div>
 @stop

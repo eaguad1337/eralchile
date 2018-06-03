@@ -1,10 +1,20 @@
-
-// Fonts
-@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,700');
 
 // Bootstrap
 @import "~bootstrap-sass/assets/stylesheets/bootstrap";
 
+@import "~datatables.net-bs/css/dataTables.bootstrap";
+
+@import "~font-awesome/css/font-awesome";
+
+* {
+  font-family: 'Roboto', sans-serif;
+}
+
 .pagination {
   margin: 0;
+}
+
+.create-link {
+  text-transform: uppercase;
 }

@@ -4,14 +4,7 @@
   <div class="container">
     <div class="col-md-12">
       <h2>Usuarios</h2>
-      <div class="row">
-        <div class="col-md-4">
-          <a class="btn btn-primary" href="{{route('users.create')}}">Crear</a>
-        </div>
-        <div class="pull-right">
-          {{$users->links()}}
-        </div>
-      </div>
+      <a class="create-link" href="{{route('users.create')}}">Crear nuevo <i class="fa fa-plus-circle"></i></a>
       <hr>
       <table class="table">
         <thead>
