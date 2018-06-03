@@ -9,6 +9,7 @@ use EAguad\Exception\ReviewerDoesNotBelongToCostCentreException;
 use EAguad\Exception\UserIsNotSignatoryException;
 use EAguad\Model\CostCentre;
 use EAguad\Model\Order;
+use EAguad\Model\Provider;
 use EAguad\Services\OrderService;
 use Illuminate\Http\Request;
 
@@ -53,14 +54,18 @@ class OrderController extends Controller
         $request->validate([
             'file' => 'required|file|max:' . env('MAX_FILE_SIZE', 5000),
             'code' => 'required|max:191|unique:orders',
-            'cost_centre_id' => 'required|exists:cost_centres,id'
+            'cost_centre_id' => 'required|exists:cost_centres,id',
+            'provider_cardcode' => 'required|exists:providers,cardcode'
         ]);
+
+        $provider = Provider::whereCardcode($request->get("provider_cardcode"))->firstOrFail();
 
         $input = [
             'file' => $request->get('file'),
             'code' => $request->get('code'),
             'cost_centre_id' => $request->get('cost_centre_id'),
-            'user_id' => auth()->user()->id
+            'user_id' => auth()->user()->id,
+            'provider_id' => $provider->id
         ];
 
         $order = Order::create($input);
@@ -80,7 +85,7 @@ class OrderController extends Controller
      */
     public function datatables(Request $request)
     {
-        return datatables(Order::with('user'))
+        return datatables(Order::with('user', 'provider'))
             ->toJson();
     }
 
@@ -117,7 +122,7 @@ class OrderController extends Controller
             'file' => 'nullable|file|max:' . env('MAX_FILE_SIZE', 5000),
             'code' => 'required|max:191|unique:orders,code,' . $order->id,
             'cost_centre_id' => 'required|exists:cost_centres,id',
-            'status' => 'sometimes'
+            'status' => 'sometimes',
         ]);
 
         $newStatus = $request->get('status');

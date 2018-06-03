@@ -23,6 +23,7 @@ Vue.component('autocomplete', Autocomplete);
  */
 
 Vue.component('cost-centre-members', require('./components/CostCentreMembers.vue'));
+Vue.component('providers-autocomplete', require('./components/ProvidersAutocomplete.vue'));
 
 
 const app = new Vue({

@@ -20,17 +20,30 @@
         <div class="col-md-6">
           <div class="form-group">
             <label for="code">Número de orden</label>
-            {!! Form::text('code', old('code'), ['class' => 'form-control', 'disabled' => !$orderIsEditable]) !!}
+            {!! Form::text('code', old('code'), ['class' => 'form-control', 'readonly' => !$orderIsEditable]) !!}
           </div>
         </div>
         <div class="col-md-6">
           <div class="form-group">
             <label for="cost_centre_id">Centro de costo</label>
-            {!! Form::select('cost_centre_id', $costCentres->pluck('name', 'id'), old('cost_centre_id'), ['class' => 'form-control', 'disabled' => !$orderIsEditable]) !!}
+            {!! Form::select('cost_centre_id', $costCentres->pluck('name', 'id'), old('cost_centre_id'), ['class' => 'form-control', 'readonly' => !$orderIsEditable]) !!}
           </div>
         </div>
       </div>
       <div class="row">
+        @if(!isset($order)) {
+        <providers-autocomplete
+          old-value="{{isset($order) ? $order->provider->cardcode : "" }}">
+        </providers-autocomplete>
+        @else
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="provider_cardcode">Proveedor</label>
+              <p><a href="{{route('providers.show', $order->provider_id)}}">{{$order->provider->cardname}}</a></p>
+            </div>
+          </div>
+        @endif
+
         @if($orderIsEditable)
           <div class="col-md-6">
             <div class="form-group">
@@ -39,6 +52,8 @@
             </div>
           </div>
         @endif
+      </div>
+      <div class="row">
         @if(isset($order))
           <div class="col-md-6">
             <div class="form-group">

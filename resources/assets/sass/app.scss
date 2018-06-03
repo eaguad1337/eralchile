@@ -18,3 +18,12 @@
 .create-link {
   text-transform: uppercase;
 }
+
+.data-list.autocomplete {
+  z-index: 9;
+  position: absolute;
+}
+
+.autocomplete-list {
+  white-space: nowrap;
+}

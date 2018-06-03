@@ -19,6 +19,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::group(['as' => 'api.'], function () {
     Route::get('users', 'API\\UserAPIController@index');
+    Route::get('providers', 'API\\ProviderAPIController@index');
     Route::get('providers/datatable', 'ProviderController@datatables')->name('providers.datatables');
     Route::get('orders/datatable', 'OrderController@datatables')->name('orders.datatables');
 

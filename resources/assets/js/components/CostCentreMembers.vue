@@ -54,11 +54,6 @@
     display: flex;
     align-items: center;
   }
-
-  .data-list.autocomplete {
-    z-index: 9;
-    position: absolute;
-  }
 </style>
 
 <script>

@@ -22,8 +22,8 @@ class CreateOrderLogsTable extends Migration
             $table->string('new_status')->nullable();
             $table->timestamps();
 
-            $table->foreign('order_id')->references('id')->on('orders');
-            $table->foreign('reviewer_id')->references('id')->on('users');
+            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
+            $table->foreign('reviewer_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

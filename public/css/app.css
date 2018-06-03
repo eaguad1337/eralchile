@@ -11634,3 +11634,12 @@ div.table-responsive > div.dataTables_wrapper > div.row > div[class^="col-"]:las
   text-transform: uppercase;
 }
 
+.data-list.autocomplete {
+  z-index: 9;
+  position: absolute;
+}
+
+.autocomplete-list {
+  white-space: nowrap;
+}
+

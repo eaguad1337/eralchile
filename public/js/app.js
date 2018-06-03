@@ -11522,6 +11522,7 @@ Vue.component('autocomplete', __WEBPACK_IMPORTED_MODULE_0_v2_autocomplete___defa
  */
 
 Vue.component('cost-centre-members', __webpack_require__(47));
+Vue.component('providers-autocomplete', __webpack_require__(68));
 
 var app = new Vue({
   el: '#app',
@@ -59943,7 +59944,7 @@ exports = module.exports = __webpack_require__(11)(false);
 
 
 // module
-exports.push([module.i, "\n.autocomplete-wrapper {\n  float: left;\n  margin-right: 5px;\n}\nul {\n  padding: 0;\n}\nli {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n}\nli > div {\n  padding: 15px 15px 0 0;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n}\n.data-list.autocomplete {\n  z-index: 9;\n  position: absolute;\n}\n", ""]);
+exports.push([module.i, "\n.autocomplete-wrapper {\n  float: left;\n  margin-right: 5px;\n}\nul {\n  padding: 0;\n}\nli {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n}\nli > div {\n  padding: 15px 15px 0 0;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n}\n", ""]);
 
 // exports
 
@@ -60382,11 +60383,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'cost-centre-members',
@@ -60563,6 +60559,197 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 56 */,
+/* 57 */,
+/* 58 */,
+/* 59 */,
+/* 60 */,
+/* 61 */,
+/* 62 */,
+/* 63 */,
+/* 64 */,
+/* 65 */,
+/* 66 */,
+/* 67 */,
+/* 68 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(52)
+/* script */
+var __vue_script__ = __webpack_require__(69)
+/* template */
+var __vue_template__ = __webpack_require__(70)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/ProvidersAutocomplete.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-a073c9fa", Component.options)
+  } else {
+    hotAPI.reload("data-v-a073c9fa", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 69 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    oldValue: {
+      default: ""
+    }
+  },
+  data: function data() {
+    return {
+      cardcode: null,
+      autocomplete: {
+        options: []
+      }
+    };
+  },
+  mounted: function mounted() {
+    this.cardcode = this.$refs.autocomplete.type = this.oldValue;
+  },
+
+  methods: {
+    onInput: function onInput() {
+      this.cardcode = this.$refs.autocomplete.type;
+    },
+    onSelect: function onSelect(a) {
+      this.$refs.autocomplete.type = a.cardcode;
+    },
+    getData: function getData(q) {
+      var _this = this;
+
+      axios.get("/api/providers", { params: { q: q } }).then(function (res) {
+        _this.autocomplete.options = res.data.data;
+      });
+    }
+  }
+});
+
+/***/ }),
+/* 70 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "col-md-6" }, [
+    _c(
+      "div",
+      { staticClass: "form-group" },
+      [
+        _c("label", { attrs: { for: "autocomplete" } }, [_vm._v("Proveedor")]),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.cardcode,
+              expression: "cardcode"
+            }
+          ],
+          attrs: { type: "hidden", name: "cardcode" },
+          domProps: { value: _vm.cardcode },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.cardcode = $event.target.value
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c("autocomplete", {
+          ref: "autocomplete",
+          attrs: {
+            name: "provider_cardcode",
+            "on-should-get-data": _vm.getData,
+            anchor: "cardname",
+            label: "cardcode",
+            "on-input": _vm.onInput,
+            options: _vm.autocomplete.options,
+            classes: {
+              wrapper: "form-wrapper",
+              input: "form-control",
+              list: "data-list",
+              item: "data-list-item"
+            },
+            "on-select": _vm.onSelect
+          }
+        })
+      ],
+      1
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-a073c9fa", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

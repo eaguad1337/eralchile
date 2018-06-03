@@ -29,19 +29,18 @@ class LoginController extends Controller
     protected $redirectTo = '/orders';
 
     /**
-     * Validate the user login request.
+     * Attempt to log the user into the application.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return void
+     * @return bool
      */
-    protected function validateLogin(Request $request)
+    protected function attemptLogin(Request $request)
     {
-        $this->validate($request, [
-            $this->username() => 'required|string',
-            'password' => 'required|string',
-            'is_active' => 1
-        ]);
+        return $this->guard()->attempt(
+            $this->credentials($request) + ['is_active' => 1], $request->filled('remember')
+        );
     }
+
     /**
      * Create a new controller instance.
      *

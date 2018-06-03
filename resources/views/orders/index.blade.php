@@ -13,6 +13,10 @@
         columns: [
           {data: 'created_at', name: 'created_at', render: $.fn.dataTable.render.text()},
           {data: 'code', name: 'code', render: $.fn.dataTable.render.text()},
+          {data: 'provider', name: 'provider.cardname', render: (data, type, row) => {
+              return `<a href="/providers/${row.provider.id}">${row.provider.cardname}</a>`
+            }
+          },
           {data: 'user', name: 'user.name', render: (data, type, row) => {
               return `<a href="/users/${row.user.id}/edit">${row.user.name}</a>`
             }
@@ -52,6 +56,7 @@
             <thead>
             <th name="created_at">Fecha</th>
             <th name="code">Código SAP</th>
+            <th name="provider">Proveedor</th>
             <th name="user">Usuario</th>
             <th name="status">Estado</th>
             <th name="action">Acciones</th>
