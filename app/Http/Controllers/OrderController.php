@@ -80,7 +80,7 @@ class OrderController extends Controller
      */
     public function datatables(Request $request)
     {
-        return datatables(Order::query())
+        return datatables(Order::with('user'))
             ->toJson();
     }
 

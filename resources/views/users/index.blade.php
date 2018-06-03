@@ -11,6 +11,8 @@
         <tr>
           <th>Nombre</th>
           <th>Email</th>
+          <th>Tipo de usuario</th>
+          <th>Puede visar</th>
           <th>Acciones</th>
         </tr>
         </thead>
@@ -19,8 +21,10 @@
           <tr>
             <td>{{$user->name}}</td>
             <td>{{$user->email}}</td>
+            <td>{{$user->isAdmin() ? "Administrador" : "Usuario normal"}}</td>
+            <td>{{$user->isSignatory() ? "Sí" : "No"}}</td>
             <td>
-              <a href="{{route('users.edit', $user->id)}}">Editar</a>
+              <a href="{{route('users.edit', $user->id)}}"><i class="fa fa-pencil"></i> Editar</a>
             </td>
           </tr>
         @endforeach

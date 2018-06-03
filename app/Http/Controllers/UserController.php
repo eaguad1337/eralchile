@@ -43,6 +43,7 @@ class UserController extends Controller
             'email' => 'email|required',
             'is_signatory' => 'boolean',
             'is_admin' => 'boolean',
+            'is_active' => 'boolean',
         ]);
 
         $input['password'] = \Hash::make($input['password']);
@@ -88,6 +89,7 @@ class UserController extends Controller
             'email' => 'email|required',
             'is_signatory' => 'boolean',
             'is_admin' => 'boolean',
+            'is_active' => 'boolean',
         ]);
 
         if ($request->get('password')) {
@@ -101,13 +103,12 @@ class UserController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
      * @param  \EAguad\Model\User $user
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy(User $user)
     {
-        //
+        return response()->json(['success' => true]);
     }
 }

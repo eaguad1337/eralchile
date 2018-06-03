@@ -3,6 +3,7 @@
 namespace EAguad\Model;
 
 use EAguad\Traits\GenerateUUID;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -18,7 +19,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'lastname', 'email', 'password', 'is_signatory', 'is_admin'
+        'name', 'lastname', 'email', 'password', 'is_signatory', 'is_admin', 'is_active'
     ];
 
     /**
@@ -41,6 +42,14 @@ class User extends Authenticatable
     public function scopeSignatory($query)
     {
         return $query->whereIsSignatory(true);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isActive() : bool
+    {
+        return $this->is_active;
     }
 
     /**
