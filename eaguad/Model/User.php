@@ -6,10 +6,11 @@ use EAguad\Traits\GenerateUUID;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use Notifiable, GenerateUUID;
+    use Notifiable, GenerateUUID, HasApiTokens;
 
     public $incrementing = false;
 
@@ -58,6 +59,14 @@ class User extends Authenticatable
     public function isAdmin() : bool
     {
         return $this->is_admin;
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function costCentres()
+    {
+        return $this->belongsToMany(CostCentre::class);
     }
 
     /**

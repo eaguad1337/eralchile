@@ -2,6 +2,7 @@
 
 @push('scripts')
   <script>
+    token = document.head.querySelector('meta[name="csrf-token"]');
     $(function () {
       $('#dataTable').DataTable({
         processing: true,
@@ -9,7 +10,10 @@
         language: {
           url: "//cdn.datatables.net/plug-ins/1.10.12/i18n/Spanish.json"
         },
-        ajax: '{{ route('api.orders.datatables') }}',
+        ajax: {
+          url: '{{ route('api.orders.datatables') }}',
+          headers: { 'X-CSRF-TOKEN': token.content},
+        },
         columns: [
           {data: 'created_at', name: 'created_at', render: $.fn.dataTable.render.text()},
           {data: 'code', name: 'code', render: $.fn.dataTable.render.text()},

@@ -44,19 +44,19 @@
           <div class="col-md-4">
             <div class="form-group">
               <label for="is_active">Activo</label>
-              {!! Form::checkbox('is_active', true, old('is_active'), ['id' => 'is_active']) !!}
+              {!! Form::checkbox('is_active', 1, old('is_active'), ['id' => 'is_active']) !!}
             </div>
           </div>
           <div class="col-md-4">
             <div class="form-group">
               <label for="is_signatory">Visar documentos</label>
-              {!! Form::checkbox('is_signatory', true, old('is_signatory'), ['id' => 'is_signatory']) !!}
+              {!! Form::checkbox('is_signatory', 1, old('is_signatory'), ['id' => 'is_signatory']) !!}
             </div>
           </div>
           <div class="col-md-4">
             <div class="form-group">
               <label for="is_admin">Administrar plataforma</label>
-              {!! Form::checkbox('is_admin', true, old('is_admin'), ['id' => 'is_admin']) !!}
+              {!! Form::checkbox('is_admin', 1, old('is_admin'), ['id' => 'is_admin']) !!}
             </div>
           </div>
         </div>

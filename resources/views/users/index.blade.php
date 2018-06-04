@@ -19,7 +19,7 @@
         <tbody>
         @foreach($users as $user)
           <tr>
-            <td>{{$user->name}}</td>
+            <td>{{$user->name}} {{$user->lastname}}</td>
             <td>{{$user->email}}</td>
             <td>{{$user->isAdmin() ? "Administrador" : "Usuario normal"}}</td>
             <td>{{$user->isSignatory() ? "Sí" : "No"}}</td>

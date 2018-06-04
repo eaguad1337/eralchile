@@ -20,6 +20,18 @@ class OrderPolicy
         //
     }
 
+    public function before(User $user, $ability)
+    {
+        if ($user->isAdmin() || $user->isSignatory()) {
+            return true;
+        }
+    }
+
+    public function edit(User $user, Order $order)
+    {
+        return $order->user_id === $user->id || $order->costCentre->hasReviewer($user);
+    }
+
     /**
      * @param User $user
      * @param Order $order

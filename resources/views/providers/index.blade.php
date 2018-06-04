@@ -9,7 +9,10 @@
         language: {
           url: "//cdn.datatables.net/plug-ins/1.10.12/i18n/Spanish.json"
         },
-        ajax: '{{ route('api.providers.datatables') }}',
+        ajax: {
+          url: '{{ route('api.providers.datatables') }}',
+          headers: { 'X-CSRF-TOKEN': token.content},
+        },
         columns: [
           {data: 'cardcode', name: 'cardcode', render: $.fn.dataTable.render.text()},
           {data: 'cardname', name: 'cardname', render: $.fn.dataTable.render.text()},

@@ -85,7 +85,16 @@ class OrderController extends Controller
      */
     public function datatables(Request $request)
     {
-        return datatables(Order::with('user', 'provider'))
+        $user = auth()->user();
+
+        $query = Order::with('user', 'provider');
+
+        if (!$user->isAdmin() || !$user->isSignatory()) {
+            $query->whereIn('cost_centre_id', $user->costCentres->pluck('id'))
+                ->orWhere('user_id', $user->id);
+        }
+
+        return datatables($query)
             ->toJson();
     }
 

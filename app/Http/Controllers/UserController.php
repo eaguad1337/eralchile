@@ -43,8 +43,9 @@ class UserController extends Controller
             'email' => 'email|required',
             'is_signatory' => 'boolean',
             'is_admin' => 'boolean',
-            'is_active' => 'boolean',
         ]);
+
+        $input['is_active'] = $request->get('is_active', false);
 
         $input['password'] = \Hash::make($input['password']);
         $user = User::create($input);
@@ -89,8 +90,9 @@ class UserController extends Controller
             'email' => 'email|required',
             'is_signatory' => 'boolean',
             'is_admin' => 'boolean',
-            'is_active' => 'boolean',
         ]);
+
+        $input['is_active'] = $request->get('is_active', false);
 
         if ($request->get('password')) {
             $input['password'] = \Hash::make($request->get('password'));
@@ -103,7 +105,7 @@ class UserController extends Controller
     }
 
     /**
-     * @param  \EAguad\Model\User $user
+     * @param  \EAguad\Model\User $userw
      * @return \Illuminate\Http\Response
      * @throws \Exception
      */
