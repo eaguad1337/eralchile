@@ -89,7 +89,7 @@ class OrderController extends Controller
 
         $query = Order::with('user', 'provider');
 
-        if (!$user->isAdmin() || !$user->isSignatory()) {
+        if (!$user->isAdmin() && !$user->isSignatory()) {
             $query->whereIn('cost_centre_id', $user->costCentres->pluck('id'))
                 ->orWhere('user_id', $user->id);
         }
