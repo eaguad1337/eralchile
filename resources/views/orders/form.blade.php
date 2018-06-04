@@ -31,7 +31,7 @@
         </div>
       </div>
       <div class="row">
-        @if(!isset($order)) {
+        @if(!isset($order))
         <providers-autocomplete
           old-value="{{isset($order) ? $order->provider->cardcode : "" }}">
         </providers-autocomplete>
