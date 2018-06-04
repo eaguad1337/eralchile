@@ -25,10 +25,10 @@ class ProviderAPIController {
                 ;
         }
 
-        $users = $query
+        $data = $query
             ->limit(15)
             ->get();
 
-        return response()->json(['data' => $users]);
+        return response()->json(['data' => $data]);
     }
 }
