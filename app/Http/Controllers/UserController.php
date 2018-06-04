@@ -50,6 +50,8 @@ class UserController extends Controller
         $input['password'] = \Hash::make($input['password']);
         $user = User::create($input);
 
+        session()->flash('success');
+
         return redirect()->route('users.edit', $user->id);
     }
 

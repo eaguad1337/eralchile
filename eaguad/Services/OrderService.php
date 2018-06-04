@@ -20,9 +20,6 @@ class OrderService {
     const STATUS_ALL = null;
 
     private static $instance = null;
-    private $status = null;
-    private $limit = 0;
-    private $offset  = 0;
 
     /**
      * OrderService constructor.
@@ -51,14 +48,15 @@ class OrderService {
             throw new ReviewerDoesNotBelongToCostCentreException();
         }
 
-        $order->status = static::STATUS_APPROVED;
-        $order->save();
         $order->logs()->create([
             'reviewer_id' => $user->id,
             'old_status' => $order->status,
             'new_status' => static::STATUS_APPROVED,
             'message' => $message
         ]);
+
+        $order->status = static::STATUS_APPROVED;
+        $order->save();
 
         event(new OrderApprovedEvent($order));
 
@@ -84,14 +82,15 @@ class OrderService {
             throw new UserIsNotSignatoryException();
         }
 
-        $order->status = static::STATUS_SIGNED;
-        $order->save();
         $order->logs()->create([
             'reviewer_id' => $user->id,
             'old_status' => $order->status,
             'new_status' => static::STATUS_SIGNED,
             'message' => $message
         ]);
+
+        $order->status = static::STATUS_SIGNED;
+        $order->save();
 
         event(new OrderSignedEvent($order));
 
@@ -117,14 +116,15 @@ class OrderService {
             throw new ReviewerDoesNotBelongToCostCentreException();
         }
 
-        $order->status = static::STATUS_REJECTED;
-        $order->save();
         $order->logs()->create([
             'reviewer_id' => $user->id,
             'old_status' => $order->status,
             'new_status' => static::STATUS_REJECTED,
             'message' => $message
         ]);
+
+        $order->status = static::STATUS_REJECTED;
+        $order->save();
 
         event(new OrderRejectedEvent($order));
 
@@ -177,14 +177,15 @@ class OrderService {
             throw new UserIsNotSignatoryException();
         }
 
-        $order->status = static::STATUS_PENDING;
-        $order->save();
         $order->logs()->create([
             'reviewer_id' => $user->id,
             'old_status' => $order->status,
             'new_status' => static::STATUS_PENDING,
             'message' => $message
         ]);
+
+        $order->status = static::STATUS_PENDING;
+        $order->save();
 
         return $this;
     }
@@ -198,17 +199,6 @@ class OrderService {
         return static::$instance;
     }
 
-    /**
-     * @return \Illuminate\Support\Collection
-     */
-    public function getAll() : \Illuminate\Support\Collection
-    {
-        return Order::where('status', $this->status)
-            ->limit($this->limit)
-            ->offset($this->offset)
-            ->get();
-    }
-
     public function getByUser(User $user) : \Illuminate\Support\Collection
     {
         return $user->orders;
@@ -220,54 +210,5 @@ class OrderService {
     public function getLimit(): int
     {
         return $this->limit;
-    }
-
-    /**
-     * @param int $limit
-     * @return OrderService
-     */
-    public function setLimit(int $limit) : OrderService
-    {
-        $this->limit = $limit;
-
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getOffset(): int
-    {
-        return $this->offset;
-    }
-
-    /**
-     * @param int $offset
-     * @return OrderService
-     */
-    public function setOffset(int $offset) : OrderService
-    {
-        $this->offset = $offset;
-
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getStatus() : int
-    {
-        return $this->status;
-    }
-
-    /**
-     * @param int $status
-     * @return OrderService
-     */
-    public function setStatus($status) : OrderService
-    {
-        $this->status = $status;
-
-        return $this;
     }
 }

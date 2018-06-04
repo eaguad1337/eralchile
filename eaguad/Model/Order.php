@@ -46,6 +46,6 @@ class Order extends Model implements HasMedia
      */
     public function logs()
     {
-        return $this->hasMany(OrderLog::class);
+        return $this->hasMany(OrderLog::class)->orderBy('created_at', 'desc');
     }
 }
