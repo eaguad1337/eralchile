@@ -46,6 +46,13 @@
                             <li><a href="{{ route('login') }}">Login</a></li>
                             <li><a href="{{ route('register') }}">Register</a></li>
                         @else
+                            <li><a href="{{route('orders.index')}}">Ordenes</a></li>
+                            @if(auth()->user()->isAdmin())
+                                <li><a href="{{route('costcentres.index')}}">Centros de Costo</a></li>
+                                <li><a href="{{route('users.index')}}">Usuarios</a></li>
+                            @endif
+                            <li><a href="{{route('providers.index')}}">Proveedores</a></li>
+                        
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>

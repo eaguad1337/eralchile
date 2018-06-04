@@ -13,6 +13,14 @@
 
 Auth::routes();
 
+Route::get('/', function() {
+    return redirect()->to('/orders');
+});
+
+Route::get('/register', function() {
+   return redirect()->to('/login');
+})->name('register');
+
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('orders', 'OrderController');
     Route::resource('providers', 'ProviderController');

@@ -11643,3 +11643,12 @@ div.table-responsive > div.dataTables_wrapper > div.row > div[class^="col-"]:las
   white-space: nowrap;
 }
 
+.navbar-default {
+  background-color: white;
+}
+
+.navbar-brand img {
+  height: 40px;
+  margin-top: -10px;
+}
+
