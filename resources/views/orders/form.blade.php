@@ -108,7 +108,7 @@
                   <td>{{$log->created_at}}</td>
                   <td>{{__($log->old_status)}}</td>
                   <td>{{__($log->new_status)}}</td>
-                  <td>{{__($log->reviewer->name)}}</td>
+                  <td><a href="{{route('users.edit', $log->reviewer->id)}}">{{$log->reviewer->name}}</a></td>
                 </tr>
               @endforeach
               </tbody>
