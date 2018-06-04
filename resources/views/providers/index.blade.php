@@ -2,6 +2,7 @@
 
 @push('scripts')
   <script>
+    token = document.head.querySelector('meta[name="csrf-token"]');
     $(function () {
       $('#dataTable').DataTable({
         processing: true,
