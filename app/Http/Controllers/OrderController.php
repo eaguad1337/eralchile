@@ -139,7 +139,6 @@ class OrderController extends Controller
         $input = [
             'code' => $request->get('code'),
             'cost_centre_id' => $request->get('cost_centre_id'),
-            'user_id' => auth()->user()->id,
         ];
 
         $order->update($input);
