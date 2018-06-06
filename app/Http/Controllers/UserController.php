@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use EAguad\Enum\UserRole;
 use EAguad\Model\User;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+
+
     /**
      * Display a listing of the resource.
      *
@@ -25,7 +28,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('users.form');
+        $roles = UserRole::getAll();
+        return view('users.form', compact('roles'));
     }
 
     /**
@@ -41,8 +45,7 @@ class UserController extends Controller
             'lastname' => 'required',
             'password' => 'required',
             'email' => 'email|required',
-            'is_signatory' => 'boolean',
-            'is_admin' => 'boolean',
+            'role' => 'required'
         ]);
 
         $input['is_active'] = $request->get('is_active', false);
@@ -74,7 +77,8 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('users.form', compact('user'));
+        $roles = UserRole::getAll();
+        return view('users.form', compact(['user', 'roles']));
     }
 
     /**
@@ -90,8 +94,7 @@ class UserController extends Controller
             'name' => 'required',
             'lastname' => 'required',
             'email' => 'email|required',
-            'is_signatory' => 'boolean',
-            'is_admin' => 'boolean',
+            'role' => 'required'
         ]);
 
         $input['is_active'] = $request->get('is_active', false);

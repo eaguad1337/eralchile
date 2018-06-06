@@ -41,22 +41,16 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-4">
+          <div class="col-md-6">
             <div class="form-group">
-              <label for="is_active">Activo</label>
-              {!! Form::checkbox('is_active', 1, old('is_active'), ['id' => 'is_active']) !!}
+              <label for="is_active">Estado</label>
+              {!! Form::select('is_active', [1 => 'Activo', 0 => 'Inactivo'], old('is_active'), ['class' => 'form-control']) !!}
             </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-6">
             <div class="form-group">
-              <label for="is_signatory">Visar documentos</label>
-              {!! Form::checkbox('is_signatory', 1, old('is_signatory'), ['id' => 'is_signatory']) !!}
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="is_admin">Administrar plataforma</label>
-              {!! Form::checkbox('is_admin', 1, old('is_admin'), ['id' => 'is_admin']) !!}
+              <label for="user_role">Rol</label>
+              {!! Form::select('role', $roles, old('role'), ['class' => 'form-control']) !!}
             </div>
           </div>
         </div>

@@ -2,6 +2,7 @@
 
 namespace EAguad\Model;
 
+use EAguad\Enum\UserRole;
 use EAguad\Traits\GenerateUUID;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
@@ -20,7 +21,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'lastname', 'email', 'password', 'is_signatory', 'is_admin', 'is_active'
+        'name', 'lastname', 'email', 'password', 'is_active', 'role'
     ];
 
     /**
@@ -42,7 +43,7 @@ class User extends Authenticatable
 
     public function scopeSignatory($query)
     {
-        return $query->whereIsSignatory(true);
+        return $query->whereRole(UserRole::Signatory);
     }
 
     /**
@@ -54,11 +55,19 @@ class User extends Authenticatable
     }
 
     /**
+     * @return string
+     */
+    public function isViewer() : string
+    {
+        return $this->role === UserRole::Viewer;
+    }
+
+    /**
      * @return bool
      */
     public function isAdmin() : bool
     {
-        return $this->is_admin;
+        return $this->role === UserRole::Admin;
     }
 
     /**
@@ -74,6 +83,6 @@ class User extends Authenticatable
      */
     public function isSignatory() : bool
     {
-        return $this->is_signatory;
+        return $this->role === UserRole::Signatory;
     }
 }
