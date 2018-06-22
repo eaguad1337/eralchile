@@ -37,7 +37,7 @@
           @auth&nbsp;
           <li><a href="{{route('orders.index')}}">Ordenes</a></li>
           @if(auth()->user()->isAdmin())
-            <li><a href="{{route('costcentres.index')}}">Centros de Costo</a></li>
+{{--            <li><a href="{{route('costcentres.index')}}">Centros de Costo</a></li>--}}
             <li><a href="{{route('users.index')}}">Usuarios</a></li>
           @endif
           <li><a href="{{route('providers.index')}}">Proveedores</a></li>

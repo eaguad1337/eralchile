@@ -6,6 +6,7 @@
 
 require('./bootstrap');
 require('datatables.net-bs');
+window.moment = require('moment')
 
 window.swal = require('sweetalert')
 

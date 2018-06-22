@@ -29,7 +29,7 @@ class OrderPolicy
 
     public function edit(User $user, Order $order)
     {
-        return $order->user_id === $user->id || $order->costCentre->hasReviewer($user);
+        return $order->user_id === $user->id || $user->isApprover();
     }
 
     /**
@@ -39,7 +39,7 @@ class OrderPolicy
      */
     public function approve(User $user, Order $order) : bool
     {
-        return $order->costCentre->hasReviewer($user);
+        return $user->isApprover();
     }
 
     /**
@@ -49,7 +49,7 @@ class OrderPolicy
      */
     public function reject(User $user, Order $order) : bool
     {
-        return $order->costCentre->hasReviewer($user);
+        return $user->isApprover();
     }
 
     /**

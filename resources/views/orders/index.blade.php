@@ -16,6 +16,13 @@
         },
         columns: [
           {data: 'created_at', name: 'created_at', render: $.fn.dataTable.render.text()},
+          {data: 'remain', name: 'remain', render: (data, type, row) => {
+              const time = moment(row.created_at, 'YYYY-MM-DD')
+              const remain = row.status !== 'pending' ? 0 : parseFloat(moment.duration(moment().diff(time)).asHours()).toFixed(0)
+              const color = remain > 0 && remain > 48 ? 'red' : 'black'
+              return `<span style="color: ${color}">${remain !== 0 ? remain : "--"} ${remain !== 0 ? 'hrs' : ''}</span>`
+            }
+          },
           {data: 'code', name: 'code', render: $.fn.dataTable.render.text()},
           {data: 'provider', name: 'provider.cardname', render: (data, type, row) => {
               return `<a href="/providers/${row.provider.id}">${row.provider.cardname}</a>`
@@ -59,7 +66,8 @@
           <table class="table" id="dataTable">
             <thead>
             <th name="created_at">Fecha</th>
-            <th name="code">Código SAP</th>
+            <th name="remain">Tiempo</th>
+            <th name="code">No OC</th>
             <th name="provider">Proveedor</th>
             <th name="user">Usuario</th>
             <th name="status">Estado</th>

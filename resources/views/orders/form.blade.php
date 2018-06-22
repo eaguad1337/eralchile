@@ -25,16 +25,16 @@
         </div>
         <div class="col-md-6">
           <div class="form-group">
-            <label for="cost_centre_id">Centro de costo</label>
-            {!! Form::select('cost_centre_id', $costCentres->pluck('name', 'id'), old('cost_centre_id'), ['class' => 'form-control', 'readonly' => !$orderIsEditable]) !!}
+            <label for="approver">Aprobador</label>
+            {!! Form::select('approver_id', $approvers, old('approver_id'), ['class' => 'form-control']) !!}
           </div>
         </div>
       </div>
       <div class="row">
         @if(!isset($order))
-        <providers-autocomplete
-          old-value="{{isset($order) ? $order->provider->cardcode : "" }}">
-        </providers-autocomplete>
+          <providers-autocomplete
+            old-value="{{isset($order) ? $order->provider->cardcode : "" }}">
+          </providers-autocomplete>
         @else
           <div class="col-md-6">
             <div class="form-group">

@@ -17,6 +17,7 @@ class OrderService {
     const STATUS_APPROVED = 'approved';
     const STATUS_REJECTED = 'rejected';
     const STATUS_SIGNED = 'signed';
+    const STATUS_NULL = 'nulled';
     const STATUS_ALL = null;
 
     private static $instance = null;

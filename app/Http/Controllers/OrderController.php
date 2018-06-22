@@ -10,6 +10,7 @@ use EAguad\Exception\UserIsNotSignatoryException;
 use EAguad\Model\CostCentre;
 use EAguad\Model\Order;
 use EAguad\Model\Provider;
+use EAguad\Model\User;
 use EAguad\Services\OrderService;
 use Illuminate\Http\Request;
 
@@ -33,14 +34,17 @@ class OrderController extends Controller
      */
     public function create()
     {
-        $costCentres = CostCentre::get();
+//        $costCentres = CostCentre::get();
         $statusSelect = [
             OrderService::STATUS_PENDING => __(OrderService::STATUS_PENDING),
             OrderService::STATUS_APPROVED => __(OrderService::STATUS_APPROVED),
             OrderService::STATUS_REJECTED => __(OrderService::STATUS_REJECTED),
             OrderService::STATUS_SIGNED => __(OrderService::STATUS_SIGNED),
         ];
-        return view('orders.form', compact(['costCentres', 'statusSelect']));
+
+        $approvers = User::approver()->pluck('name', 'id');
+
+        return view('orders.form', compact(['approvers', 'statusSelect']));
     }
 
     /**
@@ -87,14 +91,7 @@ class OrderController extends Controller
     {
         $user = auth()->user();
 
-        $query = Order::with('user', 'provider');
-
-        if (!$user->isAdmin() && !$user->isSignatory() && !$user->isViewer()) {
-            $query->whereIn('cost_centre_id', $user->costCentres->pluck('id'))
-                ->orWhere('user_id', $user->id);
-        }
-
-        return datatables($query)
+        return datatables(Order::with('user', 'provider'))
             ->toJson();
     }
 
@@ -106,14 +103,17 @@ class OrderController extends Controller
      */
     public function edit(Order $order)
     {
-        $costCentres = CostCentre::get();
+//        $costCentres = CostCentre::get();
         $statusSelect = [
             OrderService::STATUS_PENDING => __(OrderService::STATUS_PENDING),
             OrderService::STATUS_APPROVED => __(OrderService::STATUS_APPROVED),
             OrderService::STATUS_REJECTED => __(OrderService::STATUS_REJECTED),
             OrderService::STATUS_SIGNED => __(OrderService::STATUS_SIGNED),
         ];
-        return view('orders.form', compact(['order', 'costCentres', 'statusSelect']));
+
+        $approvers = User::approver()->pluck('name', 'id');
+
+        return view('orders.form', compact(['order', 'statusSelect', 'approvers']));
     }
 
     /**
@@ -126,11 +126,10 @@ class OrderController extends Controller
      */
     public function update(Request $request, Order $order)
     {
-        $user = auth()->user();
         $request->validate([
             'file' => 'nullable|file|max:' . env('MAX_FILE_SIZE', 5000),
             'code' => 'required|max:191|unique:orders,code,' . $order->id,
-            'cost_centre_id' => 'required|exists:cost_centres,id',
+            'approver_id' => 'required|exists:users,id',
             'status' => 'sometimes',
         ]);
 
@@ -138,7 +137,7 @@ class OrderController extends Controller
 
         $input = [
             'code' => $request->get('code'),
-            'cost_centre_id' => $request->get('cost_centre_id'),
+            'approver_id' => $request->get('approver_id'),
         ];
 
         $order->update($input);

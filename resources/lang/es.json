@@ -14,8 +14,9 @@
   "approved": "Aprobada",
   "rejected": "Rechazada",
   "signed": "Visada",
-  "normal": "Normal",
+  "normal": "Emisor",
   "admin": "Administrador",
-  "viewer": "Sólo lectura",
-  "signatory": "Firmante"
+  "approver": "Aprobador",
+  "viewer": "Solo Lectura",
+  "signatory": "Visor"
 }

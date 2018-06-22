@@ -85,4 +85,18 @@ class User extends Authenticatable
     {
         return $this->role === UserRole::Signatory;
     }
+
+    public function isApprover()
+    {
+        return $this->role === 'approver';
+    }
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeApprover($query)
+    {
+        return $query->where('role', 'approver');
+    }
 }
