@@ -6,6 +6,7 @@ class UserRole
     const Admin = 'admin';
     const Viewer = 'viewer';
     const Signatory = 'signatory';
+    const Approver = 'approver';
 
     /**
      * @return array
@@ -16,6 +17,6 @@ class UserRole
             return [
                $item => __($item)
             ];
-        }, [static::Normal, static::Admin, static::Viewer, static::Signatory]));
+        }, [static::Normal, static::Admin, static::Approver, static::Viewer, static::Signatory]));
     }
 }
