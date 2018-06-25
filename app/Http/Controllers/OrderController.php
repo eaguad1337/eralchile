@@ -58,7 +58,7 @@ class OrderController extends Controller
         $request->validate([
             'file' => 'required|file|max:' . env('MAX_FILE_SIZE', 5000),
             'code' => 'required|max:191|unique:orders',
-            'cost_centre_id' => 'required|exists:cost_centres,id',
+            'approver_id' => 'required|exists:users,id',
             'provider_cardcode' => 'required|exists:providers,cardcode'
         ]);
 
@@ -67,8 +67,8 @@ class OrderController extends Controller
         $input = [
             'file' => $request->get('file'),
             'code' => $request->get('code'),
-            'cost_centre_id' => $request->get('cost_centre_id'),
             'user_id' => auth()->user()->id,
+            'approver_id' => $request->get('approver_id'),
             'provider_id' => $provider->id
         ];
 
