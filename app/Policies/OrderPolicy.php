@@ -59,6 +59,6 @@ class OrderPolicy
      */
     public function sign(User $user, Order $order) : bool
     {
-        return $user->isSignatory() || $user->isAdmin();
+        return $user->id === $order->signer_id;
     }
 }

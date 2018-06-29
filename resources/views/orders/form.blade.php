@@ -61,6 +61,15 @@
               {!! Form::select('status', $statusSelect, old('status'), ['class' => 'form-control']) !!}
             </div>
           </div>
+
+          @if($order->approver_id === auth()->user()->id)
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="signer_id">Visador</label>
+                {!! Form::select('signer_id', $signers, old('signer_id'), ['class' => 'form-control']) !!}
+              </div>
+            </div>
+          @endif
         @endif
       </div>
       <div class="row">

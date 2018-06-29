@@ -7,7 +7,7 @@ class Order extends Model implements HasMedia
 {
     use HasMediaTrait;
 
-    protected $fillable = ['code', 'user_id', 'approver_id', 'provider_id'];
+    protected $fillable = ['code', 'user_id', 'approver_id', 'provider_id', 'signer_id'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -39,6 +39,14 @@ class Order extends Model implements HasMedia
     public function costCentre()
     {
         return $this->belongsTo(CostCentre::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function signer()
+    {
+        return $this->belongsTo(User::class, 'signer_id');
     }
 
     /**

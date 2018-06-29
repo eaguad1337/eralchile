@@ -133,6 +133,7 @@ class OrderController extends Controller
             'code' => 'required|max:191|unique:orders,code,' . $order->id,
             'approver_id' => 'required|exists:users,id',
             'status' => 'sometimes',
+            'signer_id' => 'exists:users,id'
         ]);
 
         $newStatus = $request->get('status');
@@ -140,6 +141,7 @@ class OrderController extends Controller
         $input = [
             'code' => $request->get('code'),
             'approver_id' => $request->get('approver_id'),
+            'signer_id' => $request->get('signer_id'),
         ];
 
         $order->update($input);
