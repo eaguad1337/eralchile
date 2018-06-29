@@ -161,6 +161,10 @@ class OrderService {
             return static::getInstance()->setPending($order, $message);
         }
 
+        if ($newStatus === static::STATUS_NULL) {
+            return static::getInstance()->setNulled($order, $message);
+        }
+
         throw new StatusNotValidException();
     }
 
@@ -186,6 +190,33 @@ class OrderService {
         ]);
 
         $order->status = static::STATUS_PENDING;
+        $order->save();
+
+        return $this;
+    }
+
+    /**
+     * @param Order $order
+     * @param $message
+     * @return OrderService
+     * @throws StatusNotValidException
+     */
+    public function setNulled(Order $order, $message)
+    {
+        $user = auth()->user();
+
+        if (!in_array($order->status, [static::STATUS_SIGNED, static::STATUS_APPROVED])) {
+            throw new StatusNotValidException();
+        }
+
+        $order->logs()->create([
+            'reviewer_id' => $user->id,
+            'old_status' => $order->status,
+            'new_status' => static::STATUS_NULL,
+            'message' => $message
+        ]);
+
+        $order->status = static::STATUS_NULL;
         $order->save();
 
         return $this;

@@ -7,7 +7,7 @@ class Order extends Model implements HasMedia
 {
     use HasMediaTrait;
 
-    protected $fillable = ['code', 'user_id', 'cost_centre_id', 'provider_id'];
+    protected $fillable = ['code', 'user_id', 'approver_id', 'provider_id'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

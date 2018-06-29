@@ -40,6 +40,7 @@ class OrderController extends Controller
             OrderService::STATUS_APPROVED => __(OrderService::STATUS_APPROVED),
             OrderService::STATUS_REJECTED => __(OrderService::STATUS_REJECTED),
             OrderService::STATUS_SIGNED => __(OrderService::STATUS_SIGNED),
+            OrderService::STATUS_NULL => __(OrderService::STATUS_NULL),
         ];
 
         $approvers = User::approver()->pluck('name', 'id');
@@ -109,6 +110,7 @@ class OrderController extends Controller
             OrderService::STATUS_APPROVED => __(OrderService::STATUS_APPROVED),
             OrderService::STATUS_REJECTED => __(OrderService::STATUS_REJECTED),
             OrderService::STATUS_SIGNED => __(OrderService::STATUS_SIGNED),
+            OrderService::STATUS_NULL => __(OrderService::STATUS_NULL),
         ];
 
         $approvers = User::approver()->pluck('name', 'id');
