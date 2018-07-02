@@ -114,8 +114,9 @@ class OrderController extends Controller
         ];
 
         $approvers = User::approver()->pluck('name', 'id');
+        $signers = User::where('role', 'signatory')->pluck('name', 'id');
 
-        return view('orders.form', compact(['order', 'statusSelect', 'approvers']));
+        return view('orders.form', compact(['order', 'statusSelect', 'approvers', 'signers']));
     }
 
     /**

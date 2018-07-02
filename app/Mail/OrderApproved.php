@@ -43,6 +43,6 @@ class OrderApproved extends Mailable
                 'as' => $orderFile->name,
                 'mime' => 'application/pdf',
             ])
-            ->to($this->signer->email);
+            ->to($this->order->signer->email);
     }
 }
