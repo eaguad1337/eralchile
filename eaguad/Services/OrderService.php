@@ -75,7 +75,7 @@ class OrderService {
     {
         $user = auth()->user();
 
-        if (!$this->signer || $order->status !== static::STATUS_APPROVED) {
+        if (!$order->signer || $order->status !== static::STATUS_APPROVED) {
             throw new OrderNotApprovedException();
         }
 
