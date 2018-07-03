@@ -145,6 +145,10 @@ class OrderController extends Controller
             'signer_id' => $request->get('signer_id'),
         ];
 
+        if (auth()->user()->id != $order->approver_id) {
+            unset($input['signer_id']);
+        }
+
         $order->update($input);
 
         if ($newStatus && $order->status !== $newStatus) {
