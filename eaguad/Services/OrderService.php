@@ -76,10 +76,6 @@ class OrderService {
     {
         $user = auth()->user();
 
-        if ($order->signer_id !== $user->id || $order->status !== static::STATUS_APPROVED) {
-            throw new OrderNotApprovedException();
-        }
-
         if ($user->cant('sign', $order)) {
             throw new UserIsNotSignatoryException();
         }

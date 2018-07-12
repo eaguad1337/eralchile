@@ -43,7 +43,7 @@ class User extends Authenticatable
 
     public function scopeSignatory($query)
     {
-        return $query->whereRole(UserRole::Signatory);
+        return $query->where('permission_signatory', 1);
     }
 
     /**
@@ -97,6 +97,6 @@ class User extends Authenticatable
      */
     public function scopeApprover($query)
     {
-        return $query->where('role', 'approver');
+        return $query->where('permission_approver', 1);
     }
 }
