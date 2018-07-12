@@ -45,7 +45,10 @@ class UserController extends Controller
             'lastname' => 'required',
             'password' => 'required',
             'email' => 'email|required',
-            'role' => 'required'
+            'permission_view' => 'boolean',
+            'permission_signatory' => 'boolean',
+            'permission_approver' => 'boolean',
+            'permission_admin' => 'boolean',
         ]);
 
         $input['is_active'] = $request->get('is_active', false);
@@ -94,7 +97,10 @@ class UserController extends Controller
             'name' => 'required',
             'lastname' => 'required',
             'email' => 'email|required',
-            'role' => 'required'
+            'permission_view' => 'boolean',
+            'permission_signatory' => 'boolean',
+            'permission_approver' => 'boolean',
+            'permission_admin' => 'boolean',
         ]);
 
         $input['is_active'] = $request->get('is_active', false);

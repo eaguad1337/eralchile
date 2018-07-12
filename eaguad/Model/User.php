@@ -21,7 +21,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'lastname', 'email', 'password', 'is_active', 'role'
+        'name', 'lastname', 'email', 'password', 'is_active', 'permission_view', 'permission_signatory', 'permission_admin', 'permission_approver'
     ];
 
     /**
@@ -59,7 +59,7 @@ class User extends Authenticatable
      */
     public function isViewer() : string
     {
-        return $this->role === UserRole::Viewer;
+        return $this->permission_view;
     }
 
     /**
@@ -67,7 +67,20 @@ class User extends Authenticatable
      */
     public function isAdmin() : bool
     {
-        return $this->role === UserRole::Admin;
+        return $this->permission_admin;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSignatory() : bool
+    {
+        return $this->permission_signatory;
+    }
+
+    public function isApprover()
+    {
+        return $this->permission_approver;
     }
 
     /**
@@ -76,19 +89,6 @@ class User extends Authenticatable
     public function costCentres()
     {
         return $this->belongsToMany(CostCentre::class);
-    }
-
-    /**
-     * @return bool
-     */
-    public function isSignatory() : bool
-    {
-        return $this->role === UserRole::Signatory;
-    }
-
-    public function isApprover()
-    {
-        return $this->role === 'approver';
     }
 
     /**

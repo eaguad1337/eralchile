@@ -48,10 +48,24 @@
             </div>
           </div>
           <div class="col-md-6">
-            <div class="form-group">
-              <label for="user_role">Rol</label>
-              {!! Form::select('role', $roles, old('role'), ['class' => 'form-control']) !!}
-            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3">
+            <label for="permission_view">Permiso para ver</label>
+            {!! Form::checkbox('permission_view', 1, old('permission_view')) !!}
+          </div>
+          <div class="col-md-3">
+            <label for="permission_approver">Permiso para aprobar</label>
+            {!! Form::checkbox('permission_approver', 1, old('permission_approver')) !!}
+          </div>
+          <div class="col-md-3">
+            <label for="permission_signatory">Permiso para visar</label>
+            {!! Form::checkbox('permission_signatory', 1, old('permission_signatory')) !!}
+          </div>
+          <div class="col-md-3">
+            <label for="permission_admin">Permiso para Administrar</label>
+            {!! Form::checkbox('permission_admin', 1, old('permission_admin')) !!}
           </div>
         </div>
         <div class="row">
