@@ -1,12 +1,14 @@
-<?php namespace App\Listeners;
+<?php
 
-use App\Mail\OrderApproved;
-use App\Events\OrderApprovedEvent;
+namespace App\Listeners;
+
+use App\Events\OrderNulledEvent;
+use App\Mail\OrderNulled;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Mail;
 
-class OrderApprovedListener
+class OrderNulledEventListener
 {
     /**
      * Create the event listener.
@@ -21,12 +23,12 @@ class OrderApprovedListener
     /**
      * Handle the event.
      *
-     * @param OrderApprovedEvent $event
+     * @param  OrderNulledEvent  $event
      * @return void
      */
-    public function handle(OrderApprovedEvent $event)
+    public function handle(OrderNulledEvent $event)
     {
-//        Mail::to($event->getOrder()->user->email)
-//            ->send(new OrderApproved($event->getOrder()));
+        Mail::to($event->getOrder()->user->email)
+            ->send(new OrderNulled($event->getOrder()));
     }
 }

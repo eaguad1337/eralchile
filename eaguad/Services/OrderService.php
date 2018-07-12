@@ -1,6 +1,7 @@
 <?php namespace EAguad\Services;
 
 use App\Events\OrderApprovedEvent;
+use App\Events\OrderNulledEvent;
 use App\Events\OrderRejectedEvent;
 use App\Events\OrderSignedEvent;
 use EAguad\Exception\AlreadyApprovedException;
@@ -205,7 +206,7 @@ class OrderService {
     {
         $user = auth()->user();
 
-        if (!in_array($order->status, [static::STATUS_SIGNED, static::STATUS_APPROVED])) {
+        if (!in_array($order->status, [static::STATUS_SIGNED])) {
             throw new StatusNotValidException();
         }
 
@@ -218,6 +219,8 @@ class OrderService {
 
         $order->status = static::STATUS_NULL;
         $order->save();
+
+        event(new OrderNulledEvent($order));
 
         return $this;
     }

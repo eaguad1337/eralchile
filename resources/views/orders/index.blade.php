@@ -62,7 +62,7 @@
             <th name="created_at">Fecha</th>
             <th name="code">No OC</th>
             <th name="provider">Proveedor</th>
-            <th name="user">Usuario</th>
+            <th name="user">Emisor</th>
             <th name="status">Estado</th>
             <th name="action">Acciones</th>
             </thead>
