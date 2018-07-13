@@ -43,7 +43,13 @@ class OrderController extends Controller
             OrderService::STATUS_NULL => __(OrderService::STATUS_NULL),
         ];
 
-        $approvers = User::approver()->pluck('name', 'id');
+        $approvers = User::approver()
+            ->get()
+            ->flatMap(function ($user) {
+                return [
+                    $user->id =>  $user->lastname . ', ' .$user->name
+                ];
+            });
 
         return view('orders.form', compact(['approvers', 'statusSelect']));
     }
@@ -113,8 +119,21 @@ class OrderController extends Controller
             OrderService::STATUS_NULL => __(OrderService::STATUS_NULL),
         ];
 
-        $approvers = User::approver()->pluck('name', 'id');
-        $signers = User::where('role', 'signatory')->pluck('name', 'id');
+        $approvers = User::approver()
+            ->get()
+            ->flatMap(function ($user) {
+                return [
+                    $user->id =>  $user->lastname . ', ' .$user->name
+                ];
+            });
+
+        $signers = User::where('role', 'signatory')
+            ->get()
+            ->flatMap(function ($user) {
+               return [
+                   $user->id =>  $user->lastname . ', ' .$user->name
+               ];
+            });
 
         return view('orders.form', compact(['order', 'statusSelect', 'approvers', 'signers']));
     }
