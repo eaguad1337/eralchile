@@ -26,7 +26,9 @@ class OrderApprovedListener
      */
     public function handle(OrderApprovedEvent $event)
     {
-//        Mail::to($event->getOrder()->user->email)
-//            ->send(new OrderApproved($event->getOrder()));
+        if (!$event->getOrder()->signer) return;
+        
+        Mail::to($event->getOrder()->signer->email)
+            ->send(new OrderApproved($event->getOrder()));
     }
 }
