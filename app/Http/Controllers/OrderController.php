@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\OrderCreatedEvent;
 use EAguad\Exception\AlreadyApprovedException;
 use EAguad\Exception\AlreadyRejectedException;
 use EAguad\Exception\OrderNotApprovedException;
@@ -83,6 +84,8 @@ class OrderController extends Controller
 
         $order->addMedia($request->file('file'))
             ->toMediaCollection();
+
+        event(new OrderCreatedEvent($order));
 
         session()->flash('success');
 

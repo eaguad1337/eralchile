@@ -50,6 +50,14 @@ class Order extends Model implements HasMedia
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function approver()
+    {
+        return $this->belongsTo(User::class, 'approver_id');
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function logs()
