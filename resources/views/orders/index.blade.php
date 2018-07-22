@@ -14,6 +14,7 @@
           url: '{{ route('api.orders.datatables') }}',
           headers: { 'X-CSRF-TOKEN': token.content},
         },
+        order: [[ 0, "desc" ]],
         columns: [
           {data: 'created_at', name: 'created_at', render: $.fn.dataTable.render.text()},
           {data: 'code', name: 'code', render: $.fn.dataTable.render.text()},

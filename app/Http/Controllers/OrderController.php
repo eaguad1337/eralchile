@@ -39,8 +39,8 @@ class OrderController extends Controller
         $statusSelect = [
             OrderService::STATUS_PENDING => __(OrderService::STATUS_PENDING),
             OrderService::STATUS_APPROVED => __(OrderService::STATUS_APPROVED),
-            OrderService::STATUS_REJECTED => __(OrderService::STATUS_REJECTED),
             OrderService::STATUS_SIGNED => __(OrderService::STATUS_SIGNED),
+            OrderService::STATUS_REJECTED => __(OrderService::STATUS_REJECTED),
             OrderService::STATUS_NULL => __(OrderService::STATUS_NULL),
         ];
 
@@ -117,8 +117,8 @@ class OrderController extends Controller
         $statusSelect = [
             OrderService::STATUS_PENDING => __(OrderService::STATUS_PENDING),
             OrderService::STATUS_APPROVED => __(OrderService::STATUS_APPROVED),
-            OrderService::STATUS_REJECTED => __(OrderService::STATUS_REJECTED),
             OrderService::STATUS_SIGNED => __(OrderService::STATUS_SIGNED),
+            OrderService::STATUS_REJECTED => __(OrderService::STATUS_REJECTED),
             OrderService::STATUS_NULL => __(OrderService::STATUS_NULL),
         ];
 
