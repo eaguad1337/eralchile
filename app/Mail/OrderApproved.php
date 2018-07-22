@@ -40,7 +40,7 @@ class OrderApproved extends Mailable
             ->with(['order' => $this->order])
             ->subject("Orden " . $this->order->code . " aprobada")
             ->attach($orderFile->getPath(), [
-                'as' => $orderFile->name,
+                'as' => $this->order->code . '.pdf',
                 'mime' => 'application/pdf',
             ])
             ->to($this->order->signer->email);

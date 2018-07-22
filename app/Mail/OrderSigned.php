@@ -38,7 +38,7 @@ class OrderSigned extends Mailable
         return $this->view('emails.order_signed')
             ->subject("Orden " . $this->order->code . " visada.")
             ->attach($orderFile->getPath(), [
-                'as' => $orderFile->name,
+                'as' => $this->order->code . '.pdf',
                 'mime' => 'application/pdf',
             ])
             ->with(['order' => $this->order]);
