@@ -53,8 +53,10 @@
   <div class="container">
     <div class="col-md-12">
       <h2>Órdenes</h2>
-      <a class="create-link" href="{{route('orders.create')}}">Crear nueva <i class="fa fa-plus-circle"></i></a>
 
+      @if(auth()->user()->canCreate())
+        <a class="create-link" href="{{route('orders.create')}}">Crear nueva <i class="fa fa-plus-circle"></i></a>
+      @endif
       <hr>
       <div class="row">
         <div class="col-md-12">

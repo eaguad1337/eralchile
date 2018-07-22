@@ -50,22 +50,26 @@
           <div class="col-md-6">
           </div>
         </div>
-        <div class="row">
-          <div class="col-md-3">
+        <div class="permissions">
+          <div class="permission">
+            {!! Form::checkbox('permission_view', 1, old('permission_view'), ['id' => 'permission_view']) !!}
             <label for="permission_view">Permiso para ver</label>
-            {!! Form::checkbox('permission_view', 1, old('permission_view')) !!}
           </div>
-          <div class="col-md-3">
+          <div class="permission">
+            {!! Form::checkbox('permission_create', 1, old('permission_create'), ['id' => 'permission_create']) !!}
+            <label for="permission_create">Permiso para crear</label>
+          </div>
+          <div class="permission">
+            {!! Form::checkbox('permission_approver', 1, old('permission_approver'), ['id' => 'permission_approver']) !!}
             <label for="permission_approver">Permiso para aprobar</label>
-            {!! Form::checkbox('permission_approver', 1, old('permission_approver')) !!}
           </div>
-          <div class="col-md-3">
+          <div class="permission">
+            {!! Form::checkbox('permission_signatory', 1, old('permission_signatory'), ['id' => 'permission_signatory']) !!}
             <label for="permission_signatory">Permiso para visar</label>
-            {!! Form::checkbox('permission_signatory', 1, old('permission_signatory')) !!}
           </div>
-          <div class="col-md-3">
+          <div class="permission">
+            {!! Form::checkbox('permission_admin', 1, old('permission_admin'), ['id' => 'permission_admin']) !!}
             <label for="permission_admin">Permiso para Administrar</label>
-            {!! Form::checkbox('permission_admin', 1, old('permission_admin')) !!}
           </div>
         </div>
         <div class="row">

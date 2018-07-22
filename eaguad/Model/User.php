@@ -21,7 +21,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'lastname', 'email', 'password', 'is_active', 'permission_view', 'permission_signatory', 'permission_admin', 'permission_approver'
+        'name', 'lastname', 'email', 'password', 'is_active', 'permission_view', 'permission_signatory', 'permission_admin', 'permission_approver', 'permission_create'
     ];
 
     /**
@@ -68,6 +68,14 @@ class User extends Authenticatable
     public function isAdmin() : bool
     {
         return $this->permission_admin;
+    }
+
+    /**
+     * @return bool
+     */
+    public function canCreate() : bool
+    {
+        return $this->permission_create;
     }
 
     /**

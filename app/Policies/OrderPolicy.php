@@ -27,6 +27,20 @@ class OrderPolicy
         }
     }
 
+    /**
+     * @param User $user
+     * @return bool
+     */
+    public function create(User $user)
+    {
+        return $user->canCreate();
+    }
+
+    /**
+     * @param User $user
+     * @param Order $order
+     * @return bool
+     */
     public function edit(User $user, Order $order)
     {
         return $order->user_id === $user->id || $user->isApprover();

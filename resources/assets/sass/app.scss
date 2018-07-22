@@ -1,10 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:400,700');
-
 // Bootstrap
 @import "~bootstrap-sass/assets/stylesheets/bootstrap";
-
 @import "~datatables.net-bs/css/dataTables.bootstrap";
-
 @import "~font-awesome/css/font-awesome";
 
 * {
@@ -35,4 +32,24 @@
 .navbar-brand img {
   height: 40px;
   margin-top: -10px;
+}
+
+.permissions {
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+
+  .permission {
+    width: calc(100% / 5);
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    input, label {
+      display: block;
+    }
+  }
 }

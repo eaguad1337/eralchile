@@ -35,6 +35,10 @@ class OrderController extends Controller
      */
     public function create()
     {
+        if (auth()->user()->canCreate()) {
+            return redirect()->route('orders.index');
+        }
+
 //        $costCentres = CostCentre::get();
         $statusSelect = [
             OrderService::STATUS_PENDING => __(OrderService::STATUS_PENDING),
@@ -158,6 +162,16 @@ class OrderController extends Controller
             'status' => 'sometimes',
             'signer_id' => 'exists:users,id'
         ]);
+
+        if ($order->status === OrderService::STATUS_SIGNED
+            || $order->status === OrderService::STATUS_REJECTED
+            || $order->status === OrderService::STATUS_NULL
+            && !(auth()->user()->isAdmin())
+        ) {
+            session()->flash('error');
+            session()->flash('message', 'No tienes permisos para modificar una orden visada.');
+            return redirect()->back();
+        }
 
         $newStatus = $request->get('status');
 

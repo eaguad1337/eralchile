@@ -49,6 +49,7 @@ class UserController extends Controller
             'permission_signatory' => 'boolean',
             'permission_approver' => 'boolean',
             'permission_admin' => 'boolean',
+            'permission_create' => 'boolean',
         ]);
 
         $input['is_active'] = $request->get('is_active', false);
@@ -101,6 +102,7 @@ class UserController extends Controller
             'permission_signatory' => 'boolean',
             'permission_approver' => 'boolean',
             'permission_admin' => 'boolean',
+            'permission_create' => 'boolean',
         ]);
 
         $input['is_active'] = $request->get('is_active', false);
