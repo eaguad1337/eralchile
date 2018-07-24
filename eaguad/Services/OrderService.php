@@ -202,7 +202,7 @@ class OrderService {
     {
         $user = auth()->user();
 
-        if ($user->isAdmin()) {
+        if (!$user->isAdmin()) {
             throw new StatusNotValidException();
         }
 
