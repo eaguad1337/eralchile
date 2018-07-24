@@ -22,6 +22,9 @@ class EventServiceProvider extends ServiceProvider
         \App\Events\OrderSignedEvent::class => [
             \App\Listeners\OrderSignedListener::class
         ],
+        \App\Events\OrderCreatedEvent::class => [
+            \App\Listeners\OrderCreatedListener::class
+        ],
     ];
 
     /**
