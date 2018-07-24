@@ -35,7 +35,7 @@ class OrderController extends Controller
      */
     public function create()
     {
-        if (auth()->user()->canCreate()) {
+        if (!auth()->user()->canCreate()) {
             return redirect()->route('orders.index');
         }
 
