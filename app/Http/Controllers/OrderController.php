@@ -134,7 +134,7 @@ class OrderController extends Controller
                 ];
             });
 
-        $signers = User::where('role', 'signatory')
+        $signers = User::where('permission_signatory', 1)
             ->get()
             ->flatMap(function ($user) {
                return [
@@ -169,7 +169,7 @@ class OrderController extends Controller
             && !(auth()->user()->isAdmin())
         ) {
             session()->flash('error');
-            session()->flash('message', 'No tienes permisos para modificar una orden visada.');
+            session()->flash('message', 'El estado actual de la orden no permite que sea modificada.');
             return redirect()->back();
         }
 
