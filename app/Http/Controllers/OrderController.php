@@ -163,10 +163,11 @@ class OrderController extends Controller
             'signer_id' => 'exists:users,id'
         ]);
 
-        if ($order->status === OrderService::STATUS_SIGNED
+        if (!auth()->user()->isAdmin()
+            &&
+            ($order->status === OrderService::STATUS_SIGNED
             || $order->status === OrderService::STATUS_REJECTED
-            || $order->status === OrderService::STATUS_NULL
-            && !(auth()->user()->isAdmin())
+            || $order->status === OrderService::STATUS_NULL)
         ) {
             session()->flash('error');
             session()->flash('message', 'El estado actual de la orden no permite que sea modificada.');
