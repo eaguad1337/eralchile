@@ -77,17 +77,30 @@
         {{--<label for="view">Ver archivo</label>--}}
         {{--</div>--}}
       </div>
-      <div class="row">
-        <div class="col-md-6">
-          <button class="btn btn-primary">Guardar</button>
-        </div>
+
+      <div class="col-md-6">
+        <button class="btn btn-primary">Guardar</button>
       </div>
       @if(isset($order) || $orderIsEditable)
         {!! Form::close() !!}
       @endif
 
+      @if(auth()->user()->isAdmin() && isset($order))
+        <div class="col-md-6">
+          <form action="{{route('orders.destroy', $order->id)}}" method="post">
+            <input type="hidden" name="_method" value="delete">
+            {{csrf_field()}}
+            <button class="btn btn-danger"
+            onClick="return confirm('¿Estás seguro que deseas eliminar la orden N{{$order->code}}?')"
+            >Eliminar</button>
+          </form>
+        </div>
+      @endif
+
+      {{--<hr style="margin-top: 50px">--}}
+
       @if(isset($order))
-        <hr>
+        <hr style="clear:both; margin-top: 60px;">
         <div class="row">
           <div class="col-md-6">
             <label for="view_pdf">Ver OC</label>
