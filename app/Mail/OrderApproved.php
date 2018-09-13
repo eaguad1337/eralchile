@@ -38,11 +38,11 @@ class OrderApproved extends Mailable
         $orderFile = $this->order->getFirstMedia();
         return $this->view('emails.order_approved')
             ->with(['order' => $this->order])
-            ->subject("Orden " . $this->order->code . " aprobada")
             ->attach($orderFile->getPath(), [
                 'as' => $this->order->code . '.pdf',
                 'mime' => 'application/pdf',
             ])
+            ->subject("Orden " . $this->order->code . " aprobada")
             ->to($this->order->signer->email);
     }
 }

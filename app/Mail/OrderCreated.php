@@ -30,11 +30,17 @@ class OrderCreated extends Mailable
      * Build the message.
      *
      * @return $this
+     * @throws \Spatie\MediaLibrary\Exceptions\InvalidConversion
      */
     public function build()
     {
+        $orderFile = $this->order->getFirstMedia();
         return $this->view('emails.order_created')
-            ->subject("Orden " . $this->order->code . " creada")
-            ->with(['order' => $this->order]);
+            ->with(['order' => $this->order])
+            ->attach($orderFile->getPath(), [
+                'as' => $this->order->code . '.pdf',
+                'mime' => 'application/pdf',
+            ])
+            ->subject("Orden " . $this->order->code . " creada");
     }
 }

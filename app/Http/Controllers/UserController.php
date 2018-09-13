@@ -104,7 +104,7 @@ class UserController extends Controller
             'permission_admin' => 'boolean',
             'permission_create' => 'boolean',
         ]);
-        
+
         $input['permission_view'] = $request->has('permission_view');
         $input['permission_signatory'] = $request->has('permission_signatory');
         $input['permission_approver'] = $request->has('permission_approver');
